@@ -316,10 +316,12 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   <div class="settings-box" style="max-width:560px;">
     <h2>Program Context</h2>
     <p>Help us write the deck copy. Answer a few quick questions and AI will fill in all placeholder text — only imagery to swap after.</p>
-    <label for="promptHubDesc">What is this co-op hub program about? Who is the target audience?</label>
-    <textarea id="promptHubDesc" rows="3" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:16px;resize:vertical;" placeholder="e.g. A hub for Austin-area car dealerships targeting Central Texas drivers actively shopping for vehicles."></textarea>
+    <label for="promptHubDesc">What is this co-op hub program about and which Hearst market is hosting?</label>
+    <textarea id="promptHubDesc" rows="3" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:16px;resize:vertical;" placeholder="e.g. A music and culture hub hosted by SFG in the Bay Area, spotlighting local artists, festivals, and live events."></textarea>
     <label for="promptTagline">What tagline or key message should anchor the program?</label>
     <textarea id="promptTagline" rows="2" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:16px;resize:vertical;" placeholder="e.g. Creating Connections That Drive Austin Forward"></textarea>
+    <label for="promptAudience">Describe the target audience traits (demographics, interests, intent, location, etc.)</label>
+    <textarea id="promptAudience" rows="2" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:20px;resize:vertical;" placeholder="e.g. Bay Area music fans ages 25–45, concert-goers, festival attendees, high household income, culturally engaged"></textarea>
 <input type="hidden" id="promptSponsorPitch" value="">
     <div class="settings-row">
       <button class="btn btn-s" onclick="closePrompt()">Cancel</button>
@@ -791,6 +793,8 @@ async function generateDeck(){
   var savedTag=localStorage.getItem('promptTagline');
   if(savedDesc) document.getElementById('promptHubDesc').value=savedDesc;
   if(savedTag) document.getElementById('promptTagline').value=savedTag;
+  var savedAud=localStorage.getItem('promptAudience');
+  if(savedAud) document.getElementById('promptAudience').value=savedAud;
   document.getElementById('promptModal').classList.add('open');
 }
 function closePrompt(){
@@ -802,6 +806,8 @@ async function submitPromptAndGenerate(){
   // Save prompt answers for next time
   localStorage.setItem('promptHubDesc', hubDesc);
   localStorage.setItem('promptTagline', tagline);
+  var audience=(document.getElementById('promptAudience').value||'').trim();
+  localStorage.setItem('promptAudience', audience);
   const sponsorPitch=(document.getElementById('promptSponsorPitch').value||'').trim();
   document.getElementById('promptModal').classList.remove('open');
   const btn=document.getElementById('generateDeckBtn');
@@ -810,7 +816,7 @@ async function submitPromptAndGenerate(){
   try{
     const SCRIPT_URL=localStorage.getItem('appsScriptUrl')||'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
     const data=getCalcData();
-    data.programContext={hubDesc:hubDesc,tagline:tagline,sponsorPitch:sponsorPitch};
+    var audience3=(document.getElementById('promptAudience').value||'').trim();data.programContext={hubDesc:hubDesc,tagline:tagline,sponsorPitch:sponsorPitch,audience:audience3};
     const resp=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data),redirect:'follow'});
     const result=await resp.json();
     if(result.deckUrl){
