@@ -309,8 +309,12 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   </div>
 </div>
 
-<div class="hero">
+<div class="hero" style="display:flex;align-items:center;justify-content:space-between;gap:20px;">
   <h1>CO-OP HUB <span>PACKAGING / PRICING</span></h1>
+  <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+    <button onclick="resetCalculator()" style="background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:6px;padding:8px 16px;font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.6);cursor:pointer;transition:all .15s;white-space:nowrap;" onmouseover="this.style.borderColor='rgba(255,255,255,.7)';this.style.color='rgba(255,255,255,.9)'" onmouseout="this.style.borderColor='rgba(255,255,255,.3)';this.style.color='rgba(255,255,255,.6)'">↺ Reset</button>
+    <button onclick="saveProgress()" id="saveProgressBtn" style="background:rgba(111,188,206,.15);border:1.5px solid var(--blue);border-radius:6px;padding:8px 16px;font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--blue);cursor:pointer;transition:all .15s;white-space:nowrap;" onmouseover="this.style.background='rgba(111,188,206,.25)'" onmouseout="this.style.background='rgba(111,188,206,.15)'">Save Progress</button>
+  </div>
 </div>
 
 <div class="main">
@@ -852,6 +856,118 @@ function initDeckLink(){
 }
 // PDF version counter (resets each page visit)
 var _pdfVersion=0;
+
+function saveProgress(){
+  try{
+    var state={
+      // Section 01
+      hubName:document.getElementById('hubName').value,
+      station:document.getElementById('station').value,
+      division:document.getElementById('division').value,
+      hubType:document.getElementById('hubType').value,
+      promoLength:document.getElementById('promoLength').value,
+      launchDate:document.getElementById('launchDate').value,
+      buildType:document.getElementById('buildType').value,
+      hifi:document.getElementById('hifi').checked,
+      sepLineItem:document.getElementById('sepLineItem').checked,
+      // Packages and addons
+      pkgs:JSON.stringify(pkgs),
+      addons:JSON.stringify(addons),
+      pid:pid,
+      aid:aid,
+      // Standard add-on toggles
+      stdDts:standardAddons.dts.active,
+      stdPromo:standardAddons.promo.active,
+      // Shared custom addons
+      sharedCustomAddons:JSON.stringify(sharedCustomAddons),
+      savedAt:new Date().toLocaleString()
+    };
+    localStorage.setItem('calcProgress',JSON.stringify(state));
+    var btn=document.getElementById('saveProgressBtn');
+    btn.textContent='Saved ✓';
+    btn.style.color='#1A7F4B';
+    btn.style.borderColor='#1A7F4B';
+    setTimeout(function(){
+      btn.textContent='Save Progress';
+      btn.style.color='var(--blue)';
+      btn.style.borderColor='var(--blue)';
+    },2000);
+  } catch(e){ alert('Could not save: '+e.message); }
+}
+
+function loadProgress(){
+  try{
+    var raw=localStorage.getItem('calcProgress');
+    if(!raw) return false;
+    var state=JSON.parse(raw);
+    // Restore section 01 fields
+    var fields=['hubName','station','division','hubType','promoLength','launchDate','buildType'];
+    fields.forEach(function(f){
+      var el=document.getElementById(f);
+      if(el&&state[f]!==undefined) el.value=state[f];
+    });
+    if(state.hifi!==undefined) document.getElementById('hifi').checked=state.hifi;
+    if(state.sepLineItem!==undefined) document.getElementById('sepLineItem').checked=state.sepLineItem;
+    // Restore packages
+    if(state.pkgs){
+      pkgs=JSON.parse(state.pkgs);
+      pid=state.pid||pkgs.length;
+    }
+    // Restore addons
+    if(state.addons){
+      addons=JSON.parse(state.addons);
+      aid=state.aid||addons.length;
+    }
+    // Restore shared custom addons
+    if(state.sharedCustomAddons){
+      sharedCustomAddons=JSON.parse(state.sharedCustomAddons);
+    }
+    // Restore standard add-on toggles
+    if(state.stdDts) standardAddons.dts.active=true;
+    if(state.stdPromo) standardAddons.promo.active=true;
+    render();
+    recalc();
+    renderAddons();
+    renderBuildPanel();
+    // Re-check promoLength change handler
+    updatePromoLength&&updatePromoLength();
+    return true;
+  } catch(e){
+    console.warn('Could not load saved progress:',e);
+    return false;
+  }
+}
+
+function resetCalculator(){
+  if(!confirm('Reset all entries to defaults? This cannot be undone.')) return;
+  localStorage.removeItem('calcProgress');
+  // Reset section 01
+  document.getElementById('hubName').value='';
+  document.getElementById('station').value='';
+  document.getElementById('division').value='HNP';
+  document.getElementById('hubType').value='Evergreen';
+  document.getElementById('promoLength').value='6';
+  document.getElementById('launchDate').value='';
+  document.getElementById('buildType').value='new';
+  document.getElementById('hifi').checked=false;
+  document.getElementById('sepLineItem').checked=false;
+  // Reset packages and addons
+  pkgs=[];pid=0;addons=[];aid=0;
+  sharedCustomAddons=[];
+  standardAddons.dts.active=false;
+  standardAddons.promo.active=false;
+  // Reset deck links
+  var topLink=document.getElementById('deckLink');
+  if(topLink){topLink.href='#';topLink.style.display='none';}
+  var botLink=document.getElementById('deckLinkBtn');
+  if(botLink){botLink.href='#';botLink.style.display='none';}
+  _pdfVersion=0;
+  // Re-initialize
+  addPackage();
+  DEFAULT_ADDONS.forEach(function(a){addAddon(a);});
+  renderBuildPanel();
+}
+
 function printVersioned(){
   _pdfVersion++;
   var data=getCalcData();
@@ -860,9 +976,11 @@ function printVersioned(){
   document.title=station+'-'+hub+'-Packaging+Pricing-V'+_pdfVersion;
   setTimeout(function(){window.print();},80);
 }
-// Init defaults
-addPackage();
-DEFAULT_ADDONS.forEach(a=>addAddon(a));
+// Init defaults — load saved state or start fresh
+if(!loadProgress()){
+  addPackage();
+  DEFAULT_ADDONS.forEach(a=>addAddon(a));
+}
 // Show linked/unlinked chain based on whether URL is configured
 (function(){
   var saved=localStorage.getItem('appsScriptUrl');
