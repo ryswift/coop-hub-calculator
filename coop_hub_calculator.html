@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co-op Hub Packaging / Pricing</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+html,body{width:100%;min-width:100%;margin:0;padding:0;overflow-x:hidden;}
+:root{--navy:#0C1D43;--blue:#6FBCCE;--white:#fff;--off:#EFF3F8;--border:#C8D8E8;--muted:#6B7A99;--good:#1A7F4B;--good-bg:#E6F4EC;--warn:#B94040;--warn-bg:#FAEAEA;--ok-bg:#FFF8E1;--ok:#7A5C00;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--off);color:var(--navy);font-family:'Barlow',sans-serif;font-size:17px;min-height:100vh;}
+
+/* ── Top bar ── */
+.topbar{background:var(--navy);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;}
+.logo-area{height:30px;display:flex;align-items:center;}
+.logo-area img{height:30px;width:auto;display:block;}
+.topbar-tag{font-family:'Barlow',sans-serif;font-size:11px;letter-spacing:.08em;color:var(--blue);flex:1;text-align:center;}
+.settings-btn{background:none;border:none;padding:0;display:flex;align-items:center;gap:7px;cursor:pointer;color:rgba(255,255,255,.6);transition:all .15s;flex-shrink:0;position:relative;z-index:10;}.settings-btn:hover{opacity:.8;}.settings-btn-icon{border:1.5px solid rgba(255,255,255,.25);border-radius:5px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}.settings-btn:hover .settings-btn-icon{border-color:var(--blue);}.settings-btn-label{font-family:'Barlow',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;transition:all .15s;}
+
+.settings-modal{display:none;position:fixed;inset:0;background:rgba(12,29,67,.55);z-index:1000;align-items:center;justify-content:center;}
+.settings-modal.open{display:flex;}
+.settings-box{background:var(--white);border-radius:8px;padding:32px;width:min(520px,90vw);box-shadow:0 12px 48px rgba(12,29,67,.22);}
+.settings-box h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);margin:0 0 8px;}
+.settings-box p{font-size:13px;color:var(--muted);margin:0 0 20px;line-height:1.5;}
+.settings-box label{font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--navy);display:block;margin-bottom:6px;}
+.settings-box input[type=text]{width:100%;box-sizing:border-box;margin-bottom:20px;}
+.settings-row{display:flex;gap:10px;justify-content:flex-end;}
+
+/* ── Hero ── */
+.hero{background:var(--navy);padding:26px 32px 22px;border-bottom:4px solid var(--blue);}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:42px;text-transform:uppercase;color:var(--white);letter-spacing:.02em;line-height:1;}
+.hero h1 span{color:var(--blue);}
+
+/* ── Layout ── */
+.main{padding:28px 32px;max-width:1300px;margin:0 auto;}
+.section{margin-bottom:36px;}
+.sec-hd{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.sec-num{background:var(--navy);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:3px;}
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:24px;text-transform:uppercase;letter-spacing:.04em;color:var(--navy);}
+
+/* ── Card ── */
+.card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:20px 22px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* ── Form fields ── */
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-family:'Barlow',sans-serif;font-weight:600;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+input,select{background:var(--white);border:1.5px solid var(--border);color:var(--navy);padding:9px 12px;border-radius:5px;font-family:'Barlow',sans-serif;font-size:16px;font-weight:400;outline:none;transition:border-color .15s;width:100%;}
+input:focus,select:focus{border-color:var(--blue);}
+input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--navy);flex-shrink:0;}
+.cbrow{display:flex;align-items:center;gap:8px;}.cbrow input[type="checkbox"]{width:15px;height:15px;flex-shrink:0;cursor:pointer;}.cbrow label{font-family:'Barlow',sans-serif;font-size:13px;font-weight:400;color:var(--navy);cursor:pointer;letter-spacing:0;text-transform:none;}
+.cbrow label{font-size:14px;text-transform:none;letter-spacing:0;color:var(--navy);font-family:'Barlow',sans-serif;font-weight:400;}
+.cb-group{display:flex;gap:24px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap;}
+.sep-cost-row{margin-top:12px;max-width:260px;display:none;}
+.sep-cost-row.vis{display:block;}
+
+/* ── Build panel ── */
+.build-box{background:var(--navy);border-radius:8px;padding:22px 26px;display:flex;gap:32px;align-items:stretch;flex-wrap:wrap;}
+.build-left{flex:0 0 auto;min-width:190px;display:flex;flex-direction:column;justify-content:space-between;}
+.build-lbl{font-family:'Barlow',sans-serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:4px;}
+.build-total{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:48px;color:var(--white);line-height:1;}
+.build-note{font-size:14px;color:rgba(255,255,255,.45);margin-top:6px;line-height:1.5;max-width:200px;}
+.bar-wrap{margin-top:16px;}
+.bar-lbl{font-family:'Barlow',sans-serif;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:5px;}
+.bar{height:6px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;width:180px;}
+.bar-fill{height:100%;background:var(--blue);border-radius:4px;transition:width .3s;}
+.bar-pct{font-family:'Barlow',sans-serif;font-weight:600;font-size:14px;color:var(--blue);margin-top:5px;}
+.build-divider{width:1px;background:rgba(255,255,255,.1);flex-shrink:0;}
+.build-right{flex:1;min-width:300px;display:flex;flex-direction:column;justify-content:center;}
+.build-tier-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08);gap:12px;}
+.build-tier-row:first-child{padding-top:0;}
+.build-tier-row:last-child{border-bottom:none;padding-bottom:0;}
+.build-tier-left{flex:1;display:flex;flex-direction:column;gap:2px;}
+.build-tier-name{font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;color:var(--white);}
+.build-tier-meta{font-size:13px;color:rgba(255,255,255,.4);}
+.build-tier-mid{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.build-tier-mid label{font-family:'Barlow',sans-serif;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4);white-space:nowrap;}
+.build-tier-mid input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:var(--white);border-radius:4px;font-family:'Barlow',sans-serif;font-weight:600;font-size:14px;width:52px;padding:4px 6px;text-align:center;}
+.build-tier-mid input:focus{border-color:var(--blue);outline:none;background:rgba(111,188,206,.15);}
+.build-tier-right{text-align:right;flex-shrink:0;min-width:90px;}
+.build-tier-cost{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:22px;color:var(--blue);}
+.build-tier-cost-sub{font-size:12px;color:rgba(255,255,255,.35);margin-top:1px;}
+.build-empty{font-size:13px;color:rgba(255,255,255,.25);font-style:italic;}
+.pct-warning{font-size:13px;color:#f5a623;margin-top:10px;padding:6px 10px;background:rgba(245,166,35,.12);border-radius:4px;border:1px solid rgba(245,166,35,.3);}
+
+/* ── Package tiers — HORIZONTAL scroll row ── */
+.pkgs-row{display:flex;flex-direction:column;gap:16px;}
+
+/* Each package card — landscape orientation, full width of grid cell */
+.pkg{background:var(--white);border:2px solid var(--border);border-radius:10px;transition:border-color .2s;display:flex;flex-direction:column;}
+/* Landscape inner layout: name bar full width, then sections flow in a row */
+.pkg-body{display:flex;flex-direction:row;align-items:stretch;}
+.pkg-col-left{flex:1 1 auto;min-width:0;border-right:1px solid var(--border);display:flex;flex-direction:column;}
+.pkg-col-right{flex:0 0 340px;width:340px;display:flex;flex-direction:column;flex-shrink:0;}
+.pkg:hover{border-color:var(--blue);}
+
+/* Hierarchy badge */
+.pkg-rank{background:var(--navy);display:flex;align-items:stretch;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.1);}.pkg-rank-accent{background:var(--blue);width:5px;flex-shrink:0;}.pkg-rank-inner{display:flex;align-items:center;gap:12px;padding:10px 16px;flex:1;}.pkg-rank-num{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:36px;color:var(--blue);line-height:1;min-width:36px;}.pkg-rank-label{display:flex;flex-direction:column;gap:0px;}.pkg-rank-word{font-family:'Barlow',sans-serif;font-weight:700;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);line-height:1;margin-bottom:2px;}.pkg-rank-divider{width:1px;height:32px;background:rgba(255,255,255,.15);flex-shrink:0;margin:0 6px;}.pkg-rank .pkg-name{flex:1;font-size:18px;font-weight:600;padding:2px 0;border-bottom:2px solid rgba(255,255,255,.2);}
+
+.pkg-namebar{background:var(--navy);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.pkg-name{background:transparent;border:none;border-bottom:2px solid rgba(255,255,255,.2);border-radius:0;padding:4px 0;font-family:'Barlow',sans-serif;font-weight:600;font-size:17px;color:var(--white);width:100%;min-width:0;}
+.pkg-name:focus{outline:none;border-bottom-color:var(--blue);}
+.rm-btn{background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:18px;line-height:1;padding:0 2px;transition:color .15s;flex-shrink:0;}
+.rm-btn:hover{color:#f88;}
+
+.pkg-section{padding:14px 16px;border-bottom:1px solid var(--border);flex:0 0 auto;}
+.pkg-section-title{font-family:'Barlow',sans-serif;font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
+
+/* Hub presence */
+.inclusions-list{display:flex;flex-direction:column;gap:3px;margin-bottom:10px;}
+/* INACTIVE: dashed, dimmed — clearly not confirmed */
+.addon-card{display:flex;align-items:center;gap:0;border-radius:8px;cursor:pointer;transition:all .15s;opacity:.35;background:transparent;border:1.5px dashed var(--border);overflow:hidden;}
+.addon-card:hover{opacity:.6;border-style:solid;}
+.addon-card.active{opacity:1;border:1.5px solid var(--blue);background:rgba(111,188,206,.06);}
+.addon-card.active:hover{background:rgba(111,188,206,.1);}
+.addon-card-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border);flex-shrink:0;margin:14px 12px;display:flex;align-items:center;justify-content:center;background:var(--white);transition:all .15s;}
+.addon-card.active .addon-card-check{background:var(--navy);border-color:var(--navy);}
+.addon-card-check-tick{display:none;color:var(--white);font-size:11px;font-weight:700;}
+.addon-card.active .addon-card-check-tick{display:block;}
+.addon-card-body{flex:1;padding:12px 10px 12px 0;}
+.addon-card-name{font-family:'Barlow',sans-serif;font-weight:600;font-size:15px;color:var(--navy);}
+.addon-card-desc{font-family:'Barlow',sans-serif;font-size:13px;color:var(--muted);margin-top:2px;}
+.addon-card-price{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:20px;color:var(--navy);padding:0 18px;flex-shrink:0;white-space:nowrap;}
+.addon-card.active .addon-card-price{color:var(--blue);}
+.inclusion-row{display:flex;align-items:center;gap:0;border-radius:5px;cursor:pointer;transition:all .15s;opacity:.3;background:transparent;border:1.5px dashed var(--border);overflow:hidden;}
+.inclusion-row:hover{opacity:.55;border-style:solid;border-color:var(--border);}
+/* ACTIVE: solid, full opacity, left accent bar, no checkbox — feels native */
+.inclusion-row.active{opacity:1;border:none;border-radius:0;background:transparent;}
+.inclusion-row.active:hover{background:rgba(111,188,206,.05);}
+.inclusion-accent{width:0;background:var(--blue);transition:width .15s;flex-shrink:0;align-self:stretch;}
+.inclusion-row.active .inclusion-accent{width:3px;}
+/* Hide check elements entirely when active */
+.inclusion-check{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border);flex-shrink:0;margin:8px 10px;display:flex;align-items:center;justify-content:center;background:var(--white);}
+.inclusion-row.active .inclusion-check{display:none;}
+.inclusion-check-tick{display:none;}
+.inclusion-text{flex:1;padding:7px 10px;}
+.inclusion-row.active .inclusion-text{padding:6px 12px;}
+.inclusion-name{font-family:'Barlow',sans-serif;font-weight:600;font-size:15px;color:var(--navy);}
+.inclusion-desc{font-family:'Barlow',sans-serif;font-size:13px;color:var(--muted);margin-top:1px;}
+.inclusion-rm{background:none;border:none;color:var(--border);cursor:pointer;font-size:14px;line-height:1;padding:0 6px;transition:color .15s;flex-shrink:0;}
+.inclusion-rm:hover{color:var(--warn);}
+.add-small-btn{background:none;border:1px dashed var(--border);color:var(--muted);border-radius:4px;padding:4px 8px;cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;width:100%;}
+.add-small-btn:hover{border-color:var(--blue);color:var(--navy);}
+
+/* Promo */
+.promo-period-label{font-size:13px;color:var(--muted);margin-bottom:8px;}
+.promo-period-label strong{color:var(--navy);font-weight:600;}
+.promo-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.promo-col{display:flex;flex-direction:column;gap:3px;}
+.promo-fl{font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.promo-monthly{font-size:14px;color:var(--blue);margin-top:3px;font-weight:600;}
+.dts-hidden{display:none;}
+
+/* Results — at bottom of card */
+.pkg-results{background:var(--off);padding:18px;box-sizing:border-box;flex:1;}
+.rr{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:15px;color:var(--muted);}
+.rr.div{border-top:1px solid var(--border);margin-top:5px;padding-top:5px;}
+.rr.bold{color:var(--navy);font-weight:600;}
+.rv{font-weight:600;color:var(--navy);}
+.rsub{font-size:12px;color:var(--muted);font-weight:400;margin-left:3px;}
+.mbadge{display:inline-block;padding:5px 12px;border-radius:4px;font-family:'Barlow',sans-serif;font-weight:700;font-size:16px;margin-top:8px;}
+.mbadge.good{background:var(--good-bg);color:var(--good);}
+.mbadge.warn{background:var(--warn-bg);color:var(--warn);}
+.mbadge.ok{background:var(--ok-bg);color:var(--ok);}
+
+/* Add pkg button — lives alongside horizontal row */
+.add-pkg-card{border:2px dashed var(--border);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .15s;background:transparent;color:var(--muted);font-family:'Barlow',sans-serif;font-size:12px;font-weight:500;padding:24px;text-align:center;min-height:80px;width:100%;}
+.add-pkg-card:hover{border-color:var(--blue);color:var(--navy);background:rgba(111,188,206,.05);}
+.add-pkg-card .plus{font-size:28px;line-height:1;color:var(--border);}
+.add-pkg-card:hover .plus{color:var(--blue);}
+
+/* Add-ons section */
+.addons-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+.addon-row{display:flex;align-items:center;gap:8px;}
+.addon-fields{display:grid;grid-template-columns:2fr 1fr auto;gap:8px;flex:1;}
+.addon-fields input{padding:9px 10px;font-size:14px;}
+.addon-rm{background:none;border:none;color:var(--border);cursor:pointer;font-size:16px;line-height:1;padding:0 4px;transition:color .15s;}
+.addon-rm:hover{color:var(--warn);}
+.addon-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;}
+
+.btn-row{margin-top:6px;display:flex;gap:10px;flex-wrap:wrap;}
+.btn{padding:10px 24px;border-radius:5px;font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:none;transition:all .15s;}
+.btn-p{background:var(--navy);color:var(--white);}
+.btn-p:hover{background:#162d5e;}
+.btn-s{background:var(--white);color:var(--navy);border:2px solid var(--border);}
+.btn-s:hover{border-color:var(--navy);}
+.note{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.6;}
+
+/* Add-on headers */
+.addon-col-headers{display:grid;grid-template-columns:2fr 1fr auto;gap:8px;margin-bottom:5px;padding-left:14px;}
+.addon-col-label{font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+
+.rr-expand-btn{background:none;border:none;cursor:pointer;font-size:13px;color:var(--muted);padding:0;font-family:'Barlow',sans-serif;font-weight:400;transition:color .15s;display:flex;align-items:center;gap:3px;margin-top:2px;}
+.rr-expand-btn:hover{color:var(--blue);}
+.rr-expand-btn .caret{display:inline-block;transition:transform .2s;font-style:normal;line-height:1;}
+.rr-expand-btn.open .caret{transform:rotate(90deg);}
+.rr-breakdown{display:none;margin-top:6px;border-radius:5px;overflow:hidden;border:1px solid var(--border);}
+.rr-breakdown.open{display:block;}
+.rr-breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--border);background:var(--white);}
+.rr-breakdown-row:last-child{border-bottom:none;background:var(--white);}
+.rr-breakdown-val{font-weight:600;color:var(--muted);}
+
+.rr-heading{font-family:'Barlow',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);padding:3px 0;}
+.rr-heading span.rv{color:var(--navy);font-weight:700;}
+
+.post-sale-note{display:flex;align-items:flex-start;gap:10px;background:var(--ok-bg);border:1px solid #e8d89a;border-radius:6px;padding:10px 14px;margin-top:14px;}
+.post-sale-note-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.post-sale-note-text{font-size:13px;color:var(--ok);line-height:1.5;}
+.post-sale-note-text strong{font-weight:700;}
+
+.series-toggle-row{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.series-toggle-btn{background:none;border:1.5px solid var(--border);border-radius:20px;padding:4px 14px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s;letter-spacing:.04em;}
+.series-toggle-btn:hover{border-color:var(--blue);color:var(--navy);}
+.series-toggle-btn.active{background:var(--navy);border-color:var(--navy);color:var(--white);}
+.series-panel{margin-top:10px;padding:10px 12px;background:var(--off);border-radius:6px;border:1px solid var(--border);}
+.series-panel-label{font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.series-stepper{display:flex;align-items:center;gap:10px;}
+.series-stepper-btn{background:var(--white);border:1.5px solid var(--border);border-radius:4px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;font-weight:600;color:var(--navy);transition:all .15s;line-height:1;}
+.series-stepper-btn:hover{border-color:var(--blue);color:var(--blue);}
+.series-stepper-count{font-family:'Barlow',sans-serif;font-weight:700;font-size:20px;color:var(--navy);min-width:20px;text-align:center;}
+.series-stepper-label{font-size:13px;color:var(--muted);}
+.series-breakdown{margin-top:8px;display:flex;flex-direction:column;gap:3px;}
+.series-breakdown-row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);padding:2px 0;}
+.series-breakdown-row span:last-child{font-weight:600;color:var(--navy);}
+
+.retail-warning{font-size:11px;color:var(--warn);margin-top:4px;display:none;font-weight:500;}
+.retail-warning.visible{display:block;}
+.retail-input-warn{border-color:var(--warn) !important;}
+
+@media print {
+  .topbar, .hero a, .add-pkg-btn, .add-small-btn, .btn, .sec-hd button,
+  .rr-expand-btn, .series-toggle-btn, .series-stepper-btn, .inclusion-rm,
+  #deckLinkBtn, button { display: none !important; }
+  .pkg { break-inside: avoid; border: 1px solid #ccc; }
+  .section { break-inside: avoid; }
+  body { background: white; }
+  .main { padding: 12px; }
+  .topbar-right { display: none; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo-area">
+    <img src="data:image/png;base64,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" alt="The Story Studio">
+  </div>
+  <div class="topbar-tag">Confidential — Please Do Not Distribute</div>
+  <button class="settings-btn" id="settingsBtn" onclick="openSettings()" title="Connect Apps Script">
+    <div class="settings-btn-icon">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 10.5a3.5 3.5 0 0 0 4.95 0l1.5-1.5a3.5 3.5 0 0 0-4.95-4.95l-.86.85" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M11 7.5a3.5 3.5 0 0 0-4.95 0l-1.5 1.5a3.5 3.5 0 0 0 4.95 4.95l.85-.85" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="3" y1="15" x2="6" y2="12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="12" y1="6" x2="15" y2="3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="settings-btn-label" id="settingsBtnLabel" style="color:var(--blue);">Connect Apps Script</span>
+  </button>
+</div>
+
+<!-- Settings Modal -->
+<div class="settings-modal" id="settingsModal" onclick="if(event.target===this)closeSettings()">
+  <div class="settings-box">
+    <h2>Script Settings</h2>
+    <p>Paste your Apps Script Web App URL below. Deploy your script via <strong>Deploy → New deployment → Web app</strong> (Execute as: Me, Access: Anyone), then copy the URL here.</p>
+    <label for="scriptUrlInput">Apps Script Web App URL</label>
+    <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/...">
+    <div class="settings-row">
+      <button class="btn btn-s" onclick="closeSettings()">Cancel</button>
+      <button class="btn btn-p" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero"  style="display:flex;align-items:center;justify-content:space-between;gap:20px;">
+  <h1>CO-OP HUB <span>PACKAGING / PRICING</span></h1>
+  <a href="#" id="deckLink" target="_blank" rel="noopener"
+    style="flex-shrink:0;display:inline-flex;align-items:center;gap:8px;font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);background:var(--blue);border:none;border-radius:6px;padding:10px 18px;text-decoration:none;transition:opacity .15s;white-space:nowrap;cursor:pointer;"
+    onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+    <svg width="16" height="13" viewBox="0 0 16 13" fill="none" style="flex-shrink:0"><rect x="0.75" y="0.75" width="14.5" height="10.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 12.25v0M5.5 12.25h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3.5" y="3" width="9" height="5.5" rx="1" fill="currentColor" opacity=".25"/><path d="M6.5 4.5l3 1.25-3 1.25V4.5z" fill="currentColor"/></svg>
+    See Program Deck
+  </a>
+</div>
+
+<div class="main">
+
+  <!-- 01 Program Details -->
+  <div class="section">
+    <div class="sec-hd"><span class="sec-title">Program Details</span></div>
+    <div class="card">
+      <div class="g3" style="margin-bottom:14px">
+        <div class="field"><label>Program / Hub Name</label><input type="text" id="hubName" placeholder="e.g. Wheels &amp; Deals" oninput="recalc();initDeckLink()"></div>
+        <div class="field"><label>Station / Market</label><input type="text" id="station" placeholder="e.g. Austin American-Statesman" oninput="recalc();initDeckLink()"></div>
+        <div class="field"><label>Division</label><select id="division" onchange="recalc()"><option value="HNP">HNP</option><option value="HTV">HTV</option></select></div>
+      </div>
+      <div class="g3" style="margin-bottom:14px">
+        <div class="field"><label>Hub Type</label><select id="hubType"><option>Evergreen</option><option>Seasonal</option></select></div>
+        <div class="field"><label>Promo Length (months)</label><input type="number" id="promoLength" value="6" min="1" max="24" oninput="onPromoLengthChange()"></div>
+        <div class="field"><label>Target Launch Date</label><input type="date" id="launchDate" style="cursor:pointer;"></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:20px;margin-top:0;flex-wrap:wrap;">
+        <div class="field" style="flex:1;min-width:220px;">
+          <label>Hub Build Cost</label>
+          <select id="buildType" onchange="onBuildTypeChange()">
+            <option value="new">New Hub — $10,000</option>
+            <option value="refresh">Refresh of Existing Hub — $3,500</option>
+            <option value="discounted">New Hub (Discounted) — Custom Amount</option>
+          </select>
+          <div class="sep-cost-row" id="discRow" style="margin-top:8px;max-width:100%">
+            <div class="field"><label>Custom Build Cost ($)</label><input type="number" id="customBuild" placeholder="e.g. 5000" oninput="recalc()"></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;align-self:flex-end;padding-bottom:2px;">
+          <div class="cbrow"><input type="checkbox" id="hifi" onchange="recalc()"><label for="hifi">Hi-fi wireframe requested &nbsp;<strong style="color:var(--blue)">−$1,500</strong></label></div>
+          <div class="cbrow"><input type="checkbox" id="sepLineItem" onchange="onSepLineItemChange()"><label for="sepLineItem">Separate line item for hub build cost</label></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-top:16px;padding:10px 14px;background:rgba(111,188,206,.08);border-radius:6px;border:1px solid rgba(111,188,206,.25);">
+        <span style="color:var(--blue);font-size:14px;flex-shrink:0;margin-top:1px;">ⓘ</span>
+        <span style="font-size:12px;color:#2a6a7a;line-height:1.5;"><strong>Hub promotion:</strong> Every co-op hub garners <strong>250,000 impressions/month</strong> organically, separate from any package-level promotion.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 Hub Build Cost -->
+  <div class="section">
+    <div class="sec-hd"><span class="sec-title">Hub Build Cost</span></div>
+    <div class="build-box">
+      <div class="build-left">
+        <div>
+          <div class="build-lbl">Total Build Cost</div>
+          <div class="build-total" id="buildTotal">$10,000</div>
+          <div class="build-note" id="buildNote">Covered by minimum sponsor commitments across all tiers</div>
+        </div>
+        <div class="bar-wrap" id="barWrap">
+          <div class="bar-lbl">Coverage across tiers</div>
+          <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
+          <div class="bar-pct" id="barPct">0% covered</div>
+        </div>
+      </div>
+      <div class="build-divider" id="buildDivider"></div>
+      <div class="build-right" id="buildRight"><div class="build-empty">Add packages to see per-client cost breakdown.</div></div>
+    </div>
+    <div class="post-sale-note" id="postSaleNote" style="background:rgba(111,188,206,.08);border-color:rgba(111,188,206,.25);">
+      <span class="post-sale-note-icon" style="color:var(--blue);">ⓘ</span>
+      <div class="post-sale-note-text" style="color:#2a6a7a;"><strong>Post-sale note:</strong> Once the initial hub build cost is fully covered by sponsor buy-in, an additional <strong>$500 co-op fee</strong> is added per sponsor to cover ongoing co-op costs. This is not reflected in the pricing above and is applied at the post-sale stage.</div>
+    </div>
+  </div>
+
+  <!-- 03 Package Tiers — horizontal -->
+  <div class="section">
+    <div class="sec-hd"><span class="sec-title">Package Tiers</span></div>
+    <div class="pkgs-row" id="pkgsRow">
+      <!-- cards injected here -->
+    </div>
+    <button class="add-pkg-card" onclick="addPackage()" id="addPkgCard">
+      <span class="plus">+</span>
+      <span>Add Package Tier</span>
+    </button>
+
+  </div>
+
+  
+
+  <div class="btn-row">
+    <button class="btn btn-p" onclick="generateDeck()" id="generateDeckBtn">Generate Deck</button>
+    <button class="btn btn-s" onclick="window.print()">Print / PDF</button>
+    <a id="deckLinkBtn" href="#" target="_blank" rel="noopener" style="padding:7px 16px;background:var(--blue);color:var(--navy);font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;border-radius:6px;text-decoration:none;display:none;align-items:center;gap:6px;">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="0.75" y="0.75" width="12.5" height="12.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      See Program Deck
+    </a>
+  </div>
+</div>
+
+<script>
+const STORY_LINKS={
+  'high-impact':'https://storystudio.4029tv.com/say-i-do-to-adventure-at-horseshoe-canyon-ranch/',
+  'guide':'https://storystudio.wmtw.com/why-its-time-to-partner-with-gelinas-hvac-and-plumbing/',
+  'traditional':'https://storystudio.koat.com/2025/01/15/inside-osi-meet-new-mexicos-insurance-watchdog/',
+  'branded':'https://storystudio.4029tv.com/sams-club-x-goodnites/'
+};
+const MIN_RETAIL={HNP:5000,HTV:7500};
+const IE_COST={1:2000,2:3000};
+const IE_TYPES=['Quiz & Assessment','Map','Information Cards','Upcoming Events','Timeline','Interactive & Shoppable Images','Interactive Games','Illustrations & Graphics','Interactive & Shoppable Video','Calculator','Animated Video','Showreel','Chatbot','Custom Module'];
+const MGMT={HNP:750,HTV:2500},MARGIN_T={HNP:[.50,.60],HTV:[.50,.50]},DESIGN_FEE={'high-impact':1250,guide:825,traditional:0,branded:5000},CFEE=600,IMP_PER_MO=500000,ENG_PER_MO=1000;
+const DEF_INC={'high-impact':[{name:'Presented by',desc:'Logo placement on header',active:true},{name:'Featured Story Placement',desc:'Stories linked at top of hub',active:true},{name:'Featured Listing',desc:'Category specific; CTA to learn more',active:true},{name:'Community Board',desc:'2 event or announcement/month (total of 12)',active:true},{name:'Map Listing w/ Popup',desc:'Contact information — up to 10',active:true},{name:'Directory Listing',desc:'Sponsor name w/ click thru to site',active:true}],'guide':[{name:'Presented by',desc:'Logo placement on header',active:true},{name:'Featured Story Placement',desc:'Stories linked at top of hub',active:true},{name:'Featured Listing',desc:'Category specific; CTA to learn more',active:true},{name:'Community Board',desc:'2 event or announcement/month (total of 12)',active:true},{name:'Map Listing w/ Popup',desc:'Contact information — up to 10',active:true},{name:'Directory Listing',desc:'Sponsor name w/ click thru to site',active:true}],'traditional':[{name:'Presented by',desc:'Logo placement on header',active:true},{name:'Featured Story Placement',desc:'Stories linked at top of hub',active:true},{name:'Featured Listing',desc:'Category specific; CTA to learn more',active:true},{name:'Community Board',desc:'2 event or announcement/month (total of 12)',active:true},{name:'Map Listing w/ Popup',desc:'Contact information — up to 10',active:true},{name:'Directory Listing',desc:'Sponsor name w/ click thru to site',active:true}],'none':[{name:'Presented by',desc:'Logo placement on header',active:true},{name:'Featured Story Placement',desc:'Stories linked at top of hub',active:true},{name:'Featured Listing',desc:'Category specific; CTA to learn more',active:true},{name:'Community Board',desc:'2 event or announcement/month (total of 12)',active:true},{name:'Map Listing w/ Popup',desc:'Contact information — up to 10',active:true},{name:'Directory Listing',desc:'Sponsor name w/ click thru to site',active:true}]};
+let pkgs=[],pid=0,addons=[],aid=0;
+const DEFS=[{name:'Presenting Sponsor — High-Impact',layout:'high-impact',minSponsors:2,hubBuildPct:50,retail:18000,impressions:3000000,engagements:6000,dtsImpressions:600000,hasDTS:false},{name:'Presenting Sponsor — SS Guide',layout:'guide',minSponsors:1,hubBuildPct:25,retail:16000,impressions:3000000,engagements:6000,dtsImpressions:600000,hasDTS:false},{name:'Presenting Sponsor — Traditional',layout:'traditional',minSponsors:1,hubBuildPct:25,retail:12000,impressions:1500000,engagements:3000,dtsImpressions:600000,hasDTS:false},{name:'Featured Sponsor',layout:'none',minSponsors:0,hubBuildPct:0,retail:3000,impressions:0,engagements:0,dtsImpressions:0,hasDTS:false}];
+const DEFAULT_ADDONS=[];
+
+function getMo(){return parseFloat(document.getElementById('promoLength').value)||6;}
+function getBase(){const t=document.getElementById('buildType').value;return t==='new'?10000:t==='refresh'?3500:parseFloat(document.getElementById('customBuild')?.value)||0;}
+function onBuildTypeChange(){document.getElementById('discRow').classList.toggle('vis',document.getElementById('buildType').value==='discounted');recalc();}
+function onSepLineItemChange(){const s=document.getElementById('sepLineItem').checked;['buildDivider','buildRight','barWrap','buildNote'].forEach(id=>document.getElementById(id).style.display=s?'none':'');document.getElementById('postSaleNote').style.display=s?'none':'';recalc();}
+function onPromoLengthChange(){const mo=getMo();pkgs.forEach(p=>{if(p.layout!=='none'&&p.autoPromo!==false){p.impressions=IMP_PER_MO*mo;p.engagements=ENG_PER_MO*mo;}});render();recalc();}
+function updMinFromBuild(pkgId,val){const p=pkgs.find(p=>p.id===pkgId);if(!p)return;p.minSponsors=parseFloat(val)||0;renderBuildPanel();recalc();}
+
+function addPackage(pr){
+  const mo=getMo(),id=pid++,layout=pr?pr.layout:'high-impact';
+  const inclusions=JSON.parse(JSON.stringify(DEF_INC[layout]||DEF_INC['high-impact']));
+  const p=pr?{id,inclusions,autoPromo:true,seriesCount:pr.seriesCount||1,seriesActive:pr.seriesActive||false,ieActive:pr.ieActive||false,ieLevel:pr.ieLevel||1,ieType:pr.ieType||'Quiz & Assessment',pkgAddons:{dts:false,promo:false},pkgAddonActive:{},baseRetail:0,...pr}:{id,name:'',layout:'none',minSponsors:0,hubBuildPct:0,retail:0,baseRetail:0,impressions:0,engagements:0,dtsImpressions:0,hasDTS:false,inclusions:JSON.parse(JSON.stringify(DEF_INC['none'])).map(i=>({...i,active:false})),pkgAddons:{dts:false,promo:false},pkgAddonActive:{},autoPromo:true,seriesCount:1,seriesActive:false,ieActive:false,ieLevel:1,ieType:'Quiz & Assessment'};
+  pkgs.push(p);render();recalc();
+}
+function removePkg(id){pkgs=pkgs.filter(p=>p.id!==id);render();recalc();}
+function upd(id,f,v){
+  const p=pkgs.find(p=>p.id===id);if(!p)return;
+  const nf=['minSponsors','hubBuildPct','retail','impressions','engagements','dtsImpressions'];
+  if(nf.includes(f)){p[f]=parseFloat(v)||0;if(f==='impressions'||f==='engagements')p.autoPromo=false;if(f==='minSponsors')renderBuildPanel();}
+  else if(f==='hasDTS'||f==='ieActive'){p[f]=v;}
+  else p[f]=v;
+  if(f==='layout'){if(v!=='none'){const mo=getMo();p.impressions=IMP_PER_MO*mo;p.engagements=ENG_PER_MO*mo;p.autoPromo=true;}render();}
+  recalc();
+}
+function updInclusion(pid,idx,field,val){const p=pkgs.find(p=>p.id===pid);if(p&&p.inclusions[idx])p.inclusions[idx][field]=val;}
+function toggleInclusion(pkgId,idx){const p=pkgs.find(p=>p.id===pkgId);if(!p)return;p.inclusions[idx].active=!p.inclusions[idx].active;
+  const row=document.getElementById('inc-row-'+pkgId+'-'+idx);
+  if(row)row.classList.toggle('active',p.inclusions[idx].active);}
+function addInclusion(pid){const p=pkgs.find(p=>p.id===pid);if(!p)return;p.inclusions.push({name:'',desc:'',active:true,custom:true});render();recalc();}
+function removeInclusion(pid,idx){const p=pkgs.find(p=>p.id===pid);if(!p)return;p.inclusions.splice(idx,1);render();recalc();}
+
+// Add-ons
+const standardAddons={dts:{name:'Direct to Site Impressions (100k)',price:1000,active:false},promo:{name:'Promotional Boost (500k imp / 1k eng)',price:3000,active:false}};
+const ADDON_PRICES={dts:1000,promo:3000};
+let sharedCustomAddons=[];
+function toggleStandardAddon(key){
+  standardAddons[key].active=!standardAddons[key].active;
+  var card=document.getElementById('addon-card-'+key);
+  if(card) card.classList.toggle('active',standardAddons[key].active);
+}
+function togglePkgAddon(pkgId,key){
+  var p=pkgs.find(p=>p.id===pkgId);if(!p)return;
+  p.pkgAddons=p.pkgAddons||{dts:false,promo:false};
+  p.pkgAddons[key]=!p.pkgAddons[key];
+  recalcPkgRetail(p);
+  recalc();
+}
+function recalcPkgRetail(p){
+  var stdTotal=Object.keys(p.pkgAddons||{}).reduce(function(s,k){return s+((p.pkgAddons[k])?ADDON_PRICES[k]:0);},0);
+  var customTotal=sharedCustomAddons.reduce(function(s,a){return s+((p.pkgAddonActive||{})[a.id]?(parseFloat(a.price)||0):0);},0);
+  p.retail=(p.baseRetail||0)+stdTotal+customTotal;
+}
+function addPkgCustomAddon(pkgId){
+  var id=Date.now();
+  sharedCustomAddons.push({id:id,name:'',desc:'',price:0});
+  pkgs.forEach(function(p){p.pkgAddonActive=p.pkgAddonActive||{};});
+  recalc();
+}
+function removePkgCustomAddon(pkgId,addonId){
+  sharedCustomAddons=sharedCustomAddons.filter(function(a){return a.id!==addonId;});
+  pkgs.forEach(function(p){if(p.pkgAddonActive)delete p.pkgAddonActive[addonId];recalcPkgRetail(p);});
+  recalc();
+}
+function updPkgCustomAddon(pkgId,addonId,field,val){
+  var a=sharedCustomAddons.find(function(a){return a.id===addonId;});
+  if(field==='active'){
+    var p=pkgs.find(p=>p.id===pkgId);if(!p)return;
+    p.pkgAddonActive=p.pkgAddonActive||{};
+    p.pkgAddonActive[addonId]=!p.pkgAddonActive[addonId];
+    recalcPkgRetail(p);recalc();
+  } else if(a){
+    if(field==='price') a.price=parseFloat(val)||0;
+    else if(field==='name') a.name=val;
+    else if(field==='desc') a.desc=val;
+    pkgs.forEach(function(p){recalcPkgRetail(p);});
+    recalc();
+  }
+}
+function addAddon(pr){
+  const id=aid++;
+  const a=pr?{id,...pr}:{id,name:'',price:0};
+  addons.push(a);renderAddons();
+}
+function removeAddon(id){addons=addons.filter(a=>a.id!==id);renderAddons();}
+function updAddon(id,f,v){const a=addons.find(a=>a.id===id);if(!a)return;if(f==='price')a[f]=parseFloat(v)||0;else a[f]=v;}
+function renderAddons(){
+  const list=document.getElementById('addonsList');list.innerHTML='';
+  addons.forEach(a=>{
+    const row=document.createElement('div');row.className='addon-row';
+    row.innerHTML=`<div class="addon-dot"></div><div class="addon-fields"><input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="e.g. Direct to Site (100k)" oninput="updAddon(${a.id},'name',this.value)"><input type="number" value="${a.price||''}" placeholder="e.g. 1000" oninput="updAddon(${a.id},'price',this.value)"><button class="addon-rm" onclick="removeAddon(${a.id})">×</button></div>`;
+    list.appendChild(row);
+  });
+}
+
+function fmtN(n){return Number(n).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function fmtPct(n){return Number(n).toFixed(2)+'%';}
+const SERIES_DESIGN_FEE={'high-impact':500,branded:2500};
+function seriesLayouts(p){return(p.seriesActive&&p.seriesCount>1&&['high-impact','branded'].includes(p.layout))?p.seriesCount:1;}
+function seriesMgmt(p,div){
+  return (div==='HTV'&&p.layout==='high-impact'&&p.seriesActive&&p.seriesCount>1)?1500:MGMT[div];
+}
+function ieCost(p){
+  if(!p.ieActive||!['high-impact','traditional','branded'].includes(p.layout)) return 0;
+  const n=seriesLayouts(p);
+  return (IE_COST[p.ieLevel]||0)*n;
+}
+function dsgn(p,div){
+  if(p.layout==='none') return 0;
+  const n=seriesLayouts(p);
+  const mgmt=seriesMgmt(p,div);
+  let base;
+  if(n<=1) base=MGMT[div]+(DESIGN_FEE[p.layout]||0)+CFEE;
+  else{const first=mgmt+(DESIGN_FEE[p.layout]||0)+CFEE;const subsequent=(n-1)*(mgmt+(SERIES_DESIGN_FEE[p.layout]||0)+CFEE);base=first+subsequent;}
+  return base+ieCost(p);
+}
+function toggleSeries(pkgId){const p=pkgs.find(p=>p.id===pkgId);if(!p)return;p.seriesActive=!p.seriesActive;if(!p.seriesActive)p.seriesCount=1;render();recalc();}
+function adjustSeries(pkgId,delta){const p=pkgs.find(p=>p.id===pkgId);if(!p)return;p.seriesCount=Math.max(2,Math.min(10,p.seriesCount+delta));render();recalc();}
+function promo(p){if(p.layout==='none')return 0;return(p.impressions*.3)/1000+p.engagements*.52+(p.hasDTS?(p.dtsImpressions*.8)/1000:0);}
+
+function renderBuildPanel(){
+  const sep=document.getElementById('sepLineItem').checked;if(sep)return;
+  const hifi=document.getElementById('hifi').checked,base=getBase(),eff=base-(hifi?1500:0);
+  const totalMin=pkgs.reduce((s,p)=>s+p.minSponsors,0);
+  // Coverage = are all sponsors accounted for? Always 100% if totalMin>0
+  const covered=totalMin>0?100:0;
+  document.getElementById('barFill').style.width=Math.min(covered,100)+'%';
+  document.getElementById('barPct').textContent=totalMin>0?'Build cost fully distributed across '+totalMin+' minimum sponsor'+(totalMin!==1?'s':''):'No minimum sponsors set';
+  document.getElementById('buildRight').innerHTML=(pkgs.length?pkgs.map(p=>{
+    const pct=totalMin>0?(p.minSponsors/totalMin)*100:0;
+    const bpc=p.minSponsors>0?(pct/100)*eff/p.minSponsors:0;
+    return`<div class="build-tier-row"><div class="build-tier-left"><div class="build-tier-name">${p.name||'<em style="opacity:.4">Unnamed package</em>'}</div><div class="build-tier-meta">${pct>0?pct.toFixed(1)+'% of build':p.minSponsors===0?'Set min sponsors to calculate':'—'}</div></div><div class="build-tier-mid"><label>Min advertisers</label><input type="number" value="${p.minSponsors}" min="0" max="20" oninput="updMinFromBuild(${p.id},this.value)"></div><div class="build-tier-right"><div class="build-tier-cost">$${fmtN(bpc)}</div><div class="build-tier-cost-sub">per client</div></div></div>`;
+  }).join('')+`<div class="build-tier-row" style="border-top:2px solid rgba(255,255,255,.15);margin-top:4px;padding-top:12px;"><div class="build-tier-left"><div class="build-tier-name" style="color:rgba(255,255,255,.5);font-size:13px;letter-spacing:.06em;text-transform:uppercase;">Total minimum sponsors</div></div><div class="build-tier-mid"></div><div class="build-tier-right"><div style="font-weight:600;font-size:48px;color:var(--white);line-height:1;">${totalMin}</div></div></div>`
+  :'<div class="build-empty">Add packages to see per-client cost breakdown.</div>');
+}
+
+const RANKS=['Tier 1','Tier 2','Tier 3','Tier 4','Tier 5'];
+function render(){
+  const mo=getMo();
+  const row=document.getElementById('pkgsRow');
+  row.innerHTML='';
+  pkgs.forEach((p,rankIdx)=>{
+    const hub=p.layout==='none',impMo=mo>0?p.impressions/mo:0,engMo=mo>0?p.engagements/mo:0,dtsMo=mo>0?p.dtsImpressions/mo:0;
+    const incRows=(p.inclusions||[]).map((inc,i)=>inc.custom
+  ?`<div class="inclusion-row active" id="inc-row-${p.id}-${i}" style="cursor:default"><div class="inclusion-accent"></div><div class="inclusion-text" style="display:flex;flex-direction:column;gap:4px;"><input type="text" value="${(inc.name||'').replace(/"/g,'&quot;')}" placeholder="Placement name" oninput="updInclusion(${p.id},${i},'name',this.value)" style="border:none;border-bottom:1px solid var(--border);padding:2px 0;font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;color:var(--navy);background:transparent;outline:none;width:100%;"><input type="text" value="${(inc.desc||'').replace(/"/g,'&quot;')}" placeholder="Description" oninput="updInclusion(${p.id},${i},'desc',this.value)" style="border:none;padding:2px 0;font-family:'Barlow',sans-serif;font-size:14px;color:var(--muted);background:transparent;outline:none;width:100%;"></div><button class="inclusion-rm" onclick="removeInclusion(${p.id},${i})">×</button></div>`
+  :`<div class="inclusion-row${inc.active?' active':''}" id="inc-row-${p.id}-${i}" onclick="toggleInclusion(${p.id},${i})"><div class="inclusion-accent"></div><div class="inclusion-check"></div><div class="inclusion-text"><div class="inclusion-name">${inc.name}</div><div class="inclusion-desc">${inc.desc}</div></div></div>`
+).join('');
+    const c=document.createElement('div');c.className='pkg';
+    c.innerHTML=`
+    <div class="pkg-rank"><div class="pkg-rank-accent"></div><div class="pkg-rank-inner"><div class="pkg-rank-num">${String(rankIdx+1).padStart(2,'0')}</div><div class="pkg-rank-label"><span class="pkg-rank-word">Tier</span></div><div class="pkg-rank-divider"></div><input class="pkg-name" type="text" value="${p.name.replace(/"/g,'&quot;')}" placeholder="Package Name" oninput="upd(${p.id},'name',this.value)"><button class="rm-btn" onclick="removePkg(${p.id})">×</button></div></div>
+    <div class="pkg-body" style="display:flex;flex-direction:row;align-items:stretch;">
+      <div class="pkg-col-left" style="flex:1 1 auto;min-width:0;border-right:1px solid #dce3ed;display:flex;flex-direction:column;">
+        <div class="pkg-section" style="flex:0 0 auto;border-bottom:1px solid var(--border)"><div class="pkg-section-title">Hub Presence</div><p style="font-size:14px;color:var(--muted);margin-bottom:10px;">Click to confirm included placements</p><div class="inclusions-list">${incRows}</div><button class="add-small-btn" onclick="addInclusion(${p.id})">+ Add Custom Placement</button></div>
+        <div class="pkg-section" style="flex:0 0 auto;border-bottom:1px solid var(--border)"><div class="pkg-section-title">Story</div>${hub?'<p style="font-size:14px;color:var(--muted);font-style:italic;margin-bottom:8px">No story — hub presence only.</p>':''}<div class="field"><label>Layout Type</label><div style="display:flex;align-items:center;gap:8px;"><select onchange="upd(${p.id},'layout',this.value)" style="flex:1"><option value="high-impact" ${p.layout==='high-impact'?'selected':''}>High-Impact</option><option value="guide" ${p.layout==='guide'?'selected':''}>SS Guide</option><option value="traditional" ${p.layout==='traditional'?'selected':''}>Traditional</option><option value="branded" ${p.layout==='branded'?'selected':''}>Branded</option><option value="none" ${p.layout==='none'?'selected':''}>None (hub only)</option></select>${STORY_LINKS[p.layout]?`<a href="${STORY_LINKS[p.layout]}" target="_blank" rel="noopener" style="flex-shrink:0;display:inline-flex;align-items:center;gap:4px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:600;color:var(--blue);text-decoration:none;white-space:nowrap;border:1.5px solid var(--blue);border-radius:4px;padding:5px 10px;transition:background .15s,color .15s;" onmouseover="this.style.background='var(--blue)';this.style.color='var(--navy)'" onmouseout="this.style.background='transparent';this.style.color='var(--blue)'">See example ↗</a>`:''}</div></div>${['high-impact','branded'].includes(p.layout)?`
+        <div class="series-toggle-row">
+          <button class="series-toggle-btn${p.seriesActive?' active':''}" onclick="toggleSeries(${p.id})">${p.seriesActive?'Series: On':'+ Series'}</button>
+          ${p.seriesActive?`<span style="font-size:14px;color:var(--muted);">${p.seriesCount} layouts</span>`:'<span style="font-size:14px;color:var(--muted);">Multiple layouts at a discount</span>'}
+        </div>
+        ${p.seriesActive?`<div class="series-panel">
+          <div class="series-panel-label">Number of Layouts</div>
+          <div class="series-stepper">
+            <button class="series-stepper-btn" onclick="adjustSeries(${p.id},-1)">−</button>
+            <span class="series-stepper-count">${p.seriesCount}</span>
+            <button class="series-stepper-btn" onclick="adjustSeries(${p.id},1)">+</button>
+            <span class="series-stepper-label">layouts in series</span>
+          </div>
+          <div class="series-breakdown">
+            <div class="series-breakdown-row"><span>Layout 1</span><span>Full rate</span></div>
+            ${p.seriesCount>1?`<div class="series-breakdown-row"><span>Layouts 2–${p.seriesCount}</span><span>$${p.layout==='high-impact'?'500':'2,500'} design fee each</span></div>`:''}</div>
+        </div>`:''}`:''}
+        ${['high-impact','traditional','branded'].includes(p.layout)?`
+        <div style="margin-top:10px;">
+          <div class="cbrow">
+            <input type="checkbox" id="ie-${p.id}" ${p.ieActive?'checked':''}
+              onchange="upd(${p.id},'ieActive',this.checked);render();recalc()">
+            <label for="ie-${p.id}">Interactive Element${p.ieActive?`<span style="color:var(--blue);font-weight:600;margin-left:6px;">+$${fmtN(IE_COST[p.ieLevel])}</span>`:''}</label>
+          </div>
+          ${p.ieActive?`
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
+            <div class="field">
+              <label>Level</label>
+              <select onchange="upd(${p.id},'ieLevel',parseInt(this.value));render();recalc()">
+                <option value="1" ${p.ieLevel===1?'selected':''}>Level 1 +$2,000</option>
+                <option value="2" ${p.ieLevel===2?'selected':''}>Level 2 +$3,000</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Element Type</label>
+              <select onchange="upd(${p.id},'ieType',this.value)">
+                ${IE_TYPES.map(t=>`<option value="${t}" ${p.ieType===t?'selected':''}>${t}</option>`).join('')}
+              </select>
+            </div>
+          </div>`:''}
+        </div>`:''}
+        </div>
+        ${!hub?`<div class="pkg-section"><div class="pkg-section-title">Promotion</div><div class="promo-period-label">Full period: <strong>${mo} month${mo!==1?'s':''}</strong></div><div class="promo-row"><div class="promo-col"><div class="promo-fl">Impressions</div><input type="number" value="${p.impressions}" step="500000" oninput="upd(${p.id},'impressions',this.value)"><div class="promo-monthly">${fmtN(impMo)}/mo</div></div><div class="promo-col"><div class="promo-fl">Engagements</div><input type="number" value="${p.engagements}" step="1000" oninput="upd(${p.id},'engagements',this.value)"><div class="promo-monthly">${fmtN(engMo)}/mo</div></div></div></div>`:''}
+      </div>
+      <div class="pkg-col-right" style="flex:0 0 340px;width:340px;flex-shrink:0;display:flex;flex-direction:column;">
+        <div class="pkg-results" id="r-${p.id}"></div>
+      </div>
+    </div>`;
+    row.appendChild(c);
+  });
+  // Immediately populate right columns
+  if(typeof recalc==='function') recalc();
+}
+
+function recalc(){
+  const div=document.getElementById('division').value,hifi=document.getElementById('hifi').checked,sep=document.getElementById('sepLineItem').checked,mo=getMo(),base=getBase(),eff=base-(hifi?1500:0);
+  if(hifi){
+    document.getElementById('buildTotal').innerHTML=`<span style="text-decoration:line-through;opacity:.4;font-size:32px;">$${fmtN(base)}</span><br><span style="color:var(--blue)">$${fmtN(eff)}</span>`;
+    document.getElementById('buildNote').innerHTML=`<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(111,188,206,.15);border:1px solid rgba(111,188,206,.3);border-radius:4px;padding:3px 8px;font-size:14px;color:var(--blue);margin-bottom:4px;">−$1,500 hi-fi wireframe deduction</span><br><span style="color:rgba(255,255,255,.45);">Effective build cost used in calculations</span>`;
+  } else {
+    document.getElementById('buildTotal').textContent='$'+fmtN(base);
+    document.getElementById('buildNote').textContent='Covered by minimum sponsor commitments across all tiers';
+  }
+  if(!sep)renderBuildPanel();
+  pkgs.forEach(p=>{
+    const totalMin=pkgs.reduce((s,q)=>s+q.minSponsors,0),pct=totalMin>0?(p.minSponsors/totalMin)*100:0,bpc=sep?500:(p.minSponsors>0?(pct/100)*eff/p.minSponsors:0),dc=dsgn(p,div),pc=promo(p),tc=p.layout==='none'?bpc:bpc+dc+pc;
+    const r=p.retail||0;
+    // Margin = (Retail Cost - Total Cost) / Retail Cost
+    const mg=r>0?(r-tc)/r:null;
+    const mpm=mo>0?r/mo:r;
+    const[ml]=MARGIN_T[div],mc=mg===null?'ok':mg>=ml?'good':mg>=ml-.08?'ok':'warn';
+    const el=document.getElementById(`r-${p.id}`);if(!el)return;
+    el.innerHTML=`<div class="rr"><span>Hub build / client</span><span class="rv">$${fmtN(bpc)}</span></div><div class="rr"><span><span style="display:block">Design cost</span>${dc>0?`<button class="rr-expand-btn" onclick="(function(btn){var b=btn.closest('.pkg-results').querySelector('.rr-breakdown');var open=b.classList.toggle('open');btn.classList.toggle('open',open);})(this)"><span class="caret">›</span><span>show breakdown</span></button>`:''}</span><span class="rv">$${fmtN(dc)}</span></div>${dc>0?`<div class="rr-breakdown">${(()=>{
+  const n=seriesLayouts(p);
+  let rows='';
+  if(n<=1){
+    rows=`<div class="rr-breakdown-row"><span>Content fee</span><span class="rr-breakdown-val">$${fmtN(CFEE)}</span></div><div class="rr-breakdown-row"><span>Mgmt fee</span><span class="rr-breakdown-val">$${fmtN(MGMT[div])}</span></div><div class="rr-breakdown-row"><span>Design fee</span><span class="rr-breakdown-val">$${fmtN(DESIGN_FEE[p.layout]||0)}</span></div>`;
+  } else {
+    const seriesFee=SERIES_DESIGN_FEE[p.layout]||0;
+    const perLayout=(i)=>MGMT[div]+CFEE+(i===0?DESIGN_FEE[p.layout]||0:seriesFee);
+    for(let i=0;i<n;i++){
+      const label=i===0?'Layout 1 (full rate)':`Layout ${i+1} (series rate)`;
+      const breakdown=i===0?`$${fmtN(MGMT[div])} mgmt + $${fmtN(CFEE)} content + $${fmtN(DESIGN_FEE[p.layout]||0)} design`:`$${fmtN(MGMT[div])} mgmt + $${fmtN(CFEE)} content + $${fmtN(seriesFee)} design`;
+      rows+=`<div class="rr-breakdown-row" style="flex-direction:column;align-items:flex-start;gap:1px;"><span style="font-weight:600;color:var(--navy);">${label}</span><span style="font-size:13px;">${breakdown} = $${fmtN(perLayout(i))}</span></div>`;
+    }
+  }
+  if(p.ieActive&&ieCost(p)>0){const _n=seriesLayouts(p);rows+=`<div class="rr-breakdown-row"><span>IE — ${p.ieType} (Level ${p.ieLevel})${_n>1?' × '+_n+' layouts':''}</span><span class="rr-breakdown-val">+$${fmtN(ieCost(p))}</span></div>`;}
+  return rows;
+})()}</div>`:''}<div class="rr"><span><span style="display:block">Promo cost</span>${pc>0?`<button class="rr-expand-btn" onclick="(function(btn){var b=btn.closest('.pkg-results').querySelector('.rr-promo-breakdown');var open=b.classList.toggle('open');btn.classList.toggle('open',open);})(this)"><span class="caret">›</span><span>show breakdown</span></button>`:''}</span><span class="rv">$${fmtN(pc)}</span></div>${pc>0?`<div class="rr-breakdown rr-promo-breakdown"><div class="rr-breakdown-row"><span>Impressions</span><span class="rr-breakdown-val">$${fmtN((p.impressions*0.3)/1000)}</span></div><div class="rr-breakdown-row"><span>Engagements</span><span class="rr-breakdown-val">$${fmtN(p.engagements*0.52)}</span></div>${p.hasDTS?`<div class="rr-breakdown-row"><span>DTS</span><span class="rr-breakdown-val">$${fmtN((p.dtsImpressions*0.8)/1000)}</span></div>`:''}</div>`:''}<div class="rr div" style="padding-top:8px;margin-top:4px"><span class="rr-heading">Total Cost / Client</span><span class="rv" style="font-weight:700;font-size:15px;color:var(--navy)">$${fmtN(tc)}</span></div><div class="field" style="margin-top:12px"><label style="font-family:'Barlow',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);">Retail Cost / Client ($)</label><input type="number" value="${r||''}" placeholder="e.g. 18000" class="${r>0&&r<MIN_RETAIL[div]?'retail-input-warn':''}" onchange="var _p=pkgs.find(p=>p.id===${p.id});if(_p){_p.baseRetail=parseFloat(this.value)||0;recalcPkgRetail(_p);recalc();}"><div class="retail-warning ${r>0&&r<MIN_RETAIL[div]?'visible':''}" >Minimum retail for ${div}: $${fmtN(MIN_RETAIL[div])}</div></div>${r>0?`<div class="rr" style="margin-top:6px;"><span style="font-size:14px;color:var(--muted);">$${fmtN(mpm)}/mo</span></div><span class="mbadge ${mc}">${(mg*100).toFixed(2)}% Margin</span>`:''}
+<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+  <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:10px;">Add-Ons</div>
+  <div style="display:flex;flex-direction:column;gap:7px;">
+    <div class="addon-card${p.pkgAddons&&p.pkgAddons.dts?' active':''}" onclick="togglePkgAddon(${p.id},'dts')" style="border-radius:6px;">
+      <div class="addon-card-check"><span class="addon-card-check-tick">✓</span></div>
+      <div class="addon-card-body" style="padding:9px 8px 9px 0;">
+        <div class="addon-card-name" style="font-size:13px;">Direct to Site Impressions</div>
+        <div class="addon-card-desc" style="font-size:12px;">100k impressions to sponsor site</div>
+      </div>
+      <div class="addon-card-price" style="font-size:16px;padding:0 12px;">$1,000</div>
+    </div>
+    <div class="addon-card${p.pkgAddons&&p.pkgAddons.promo?' active':''}" onclick="togglePkgAddon(${p.id},'promo')" style="border-radius:6px;">
+      <div class="addon-card-check"><span class="addon-card-check-tick">✓</span></div>
+      <div class="addon-card-body" style="padding:9px 8px 9px 0;">
+        <div class="addon-card-name" style="font-size:13px;">Promotional Boost</div>
+        <div class="addon-card-desc" style="font-size:12px;">500k impressions + 1k engagements</div>
+      </div>
+      <div class="addon-card-price" style="font-size:16px;padding:0 12px;">$3,000</div>
+    </div>
+  </div>
+${sharedCustomAddons.map(function(a){var _active=(p.pkgAddonActive||{})[a.id];return `<div class="addon-card${_active?' active':''}" style="border-radius:6px;margin-top:7px;" onclick="updPkgCustomAddon(${p.id},${a.id},'active')">
+      <div class="addon-card-check"><span class="addon-card-check-tick">✓</span></div>
+      <div class="addon-card-body" style="padding:7px 6px 7px 0;">
+        <input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Add-on name" onclick="event.stopPropagation()" oninput="event.stopPropagation();updPkgCustomAddon(${p.id},${a.id},'name',this.value)" style="border:none;border-bottom:1px solid var(--border);background:transparent;outline:none;width:100%;font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;color:var(--navy);padding:2px 0;margin-bottom:3px;">
+        <input type="text" value="" placeholder="Description (optional)" onclick="event.stopPropagation()" oninput="event.stopPropagation()" style="border:none;background:transparent;outline:none;width:100%;font-family:'Barlow',sans-serif;font-size:12px;color:var(--muted);padding:2px 0;">
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;padding:0 8px;flex-shrink:0;">
+        <span style="font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;color:var(--muted);">$</span>
+        <input type="number" value="${a.price||''}" placeholder="0" onclick="event.stopPropagation()" oninput="event.stopPropagation();updPkgCustomAddon(${p.id},${a.id},'price',this.value)" style="border:none;border-bottom:1px solid var(--border);background:transparent;outline:none;width:60px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;color:var(--navy);padding:2px 0;text-align:right;">
+        <button onclick="event.stopPropagation();removePkgCustomAddon(${p.id},${a.id})" style="background:none;border:none;color:var(--border);cursor:pointer;font-size:14px;line-height:1;padding:0 2px;flex-shrink:0;" onmouseover="this.style.color='#f88'" onmouseout="this.style.color='var(--border)'">×</button>
+      </div>
+    </div>`;}).join('')}
+<button onclick="addPkgCustomAddon(${p.id})" style="margin-top:8px;background:none;border:1px dashed var(--border);color:var(--muted);border-radius:6px;padding:7px 12px;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;width:100%;" onmouseover="this.style.borderColor='var(--blue)';this.style.color='var(--navy)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">+ Add Item</button>
+</div>`;
+  });
+}
+function getCalcData(){
+  const div=document.getElementById('division').value;
+  const sep=document.getElementById('sepLineItem').checked;
+  const hifi=document.getElementById('hifi').checked;
+  const mo=getMo();
+  const base=getBase();
+  const eff=base-(hifi?1500:0);
+  const year=new Date().getFullYear();
+  const pkgData=pkgs.map(p=>{
+    const totalMin=pkgs.reduce((s,q)=>s+q.minSponsors,0),pct=totalMin>0?(p.minSponsors/totalMin)*100:0,bpc=sep?500:(p.minSponsors>0?(pct/100)*eff/p.minSponsors:0);
+    const dc=dsgn(p,div);
+    const pc=promo(p);
+    const tc=p.layout==='none'?bpc:bpc+dc+pc;
+    const r=p.retail||0;
+    const mg=r>0?((r-tc)/r):0;
+    const mpm=r>0?Math.round(r/mo):0;
+    const confirmedInclusions=p.inclusions.filter(i=>i.confirmed||i.custom).map(i=>({name:i.name,desc:i.desc}));
+    return {
+      name:p.name,layout:p.layout,minSponsors:p.minSponsors,hubBuildPct:p.hubBuildPct,
+      bpc:Math.round(bpc),designCost:Math.round(dc),promoCost:Math.round(pc),
+      totalCost:Math.round(tc),retail:r,monthly:mpm,margin:Math.round(mg*10000)/100,
+      impressions:p.impressions,engagements:p.engagements,hasDTS:p.hasDTS,dtsImpressions:p.dtsImpressions,
+      seriesActive:p.seriesActive,seriesCount:p.seriesCount,
+      ieActive:p.ieActive,ieLevel:p.ieLevel,ieType:p.ieType,
+      inclusions:confirmedInclusions
+    };
+  });
+  return {
+    hubName:document.getElementById('hubName').value||'',
+    station:document.getElementById('station').value||'',
+    division:div,
+    hubType:document.getElementById('hubType').value||'Evergreen',
+    promoLength:mo,
+    buildType:document.getElementById('buildType').value||'new',
+    buildCost:base,
+    effectiveBuildCost:eff,
+    hifi:hifi,
+    sepLineItem:sep,
+    launchDate:document.getElementById('launchDate').value||'',
+    year:year,
+    packages:pkgData,standardAddons:Object.entries(standardAddons).filter(([k,v])=>v.active).map(([k,v])=>({name:v.name,price:v.price}))
+  };
+}
+async function generateDeck(){
+  const btn=document.getElementById('generateDeckBtn');
+  const data=getCalcData();
+  if(!data.hubName||!data.station){
+    alert('Please enter a Program / Hub Name and Station before generating the deck.');
+    return;
+  }
+  btn.textContent='Generating...';
+  btn.disabled=true;
+  try{
+    const SCRIPT_URL=localStorage.getItem('appsScriptUrl')||'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+    const resp=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const result=await resp.json();
+    if(result.deckUrl){
+      const key='deckUrl_'+data.hubName+'_'+data.station;
+      localStorage.setItem(key,result.deckUrl);
+      setDeckLink(result.deckUrl);
+      btn.textContent='Deck Generated ✓';
+      setTimeout(()=>{btn.textContent='Generate Deck';btn.disabled=false;},3000);
+    } else {
+      throw new Error(result.error||'Unknown error');
+    }
+  } catch(e){
+    var msg=e.message||'Unknown error';
+    if(msg.indexOf('fetch')!==-1||msg.indexOf('network')!==-1||msg.indexOf('CORS')!==-1){
+      alert('Connection error: The calculator must be opened from a web server (not a local file) to generate decks.\n\nTip: Upload the file to Google Drive and open it from there, or use a local server.');
+    } else {
+      alert('Error: '+msg+'\n\nMake sure the Apps Script URL is saved via the chain icon.');
+    }
+    btn.textContent='Generate Deck';
+    btn.disabled=false;
+  }
+}
+function openSettings(){
+  var modal=document.getElementById('settingsModal');
+  var inp=document.getElementById('scriptUrlInput');
+  inp.value=localStorage.getItem('appsScriptUrl')||'';
+  modal.classList.add('open');
+  inp.focus();
+}
+function closeSettings(){
+  document.getElementById('settingsModal').classList.remove('open');
+}
+function saveSettings(){
+  var url=document.getElementById('scriptUrlInput').value.trim();
+  if(url){
+    localStorage.setItem('appsScriptUrl',url);
+    document.getElementById('settingsBtn').title='Apps Script Connected — click to change';
+    document.getElementById('settingsBtn').querySelector('.settings-btn-icon').innerHTML=`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M7 10.5a3.5 3.5 0 0 0 4.95 0l1.5-1.5a3.5 3.5 0 0 0-4.95-4.95l-.86.85" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/> <path d="M11 7.5a3.5 3.5 0 0 0-4.95 0l-1.5 1.5a3.5 3.5 0 0 0 4.95 4.95l.85-.85" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/> </svg>`;
+    document.getElementById('settingsBtn').querySelector('.settings-btn-icon').style.borderColor='var(--blue)';
+    document.getElementById('settingsBtnLabel').textContent='Apps Script Connected';
+    document.getElementById('settingsBtnLabel').style.color='var(--muted)';
+  }
+  closeSettings();
+}
+function setDeckLink(url){
+  const heroLink=document.getElementById('deckLink');
+  if(heroLink){heroLink.href=url;}
+  const topBtn=document.getElementById('deckLinkBtn');
+  if(topBtn){topBtn.href=url;topBtn.style.display='inline-flex';}
+}
+function initDeckLink(){
+  const hub=document.getElementById('hubName').value;
+  const sta=document.getElementById('station').value;
+  if(hub&&sta){
+    const saved=localStorage.getItem('deckUrl_'+hub+'_'+sta);
+    if(saved) setDeckLink(saved);
+    else{
+      const topBtn=document.getElementById('deckLinkBtn');
+      if(topBtn) topBtn.style.display='none';
+    }
+  }
+}
+// Init defaults
+addPackage();
+DEFAULT_ADDONS.forEach(a=>addAddon(a));
+// Show linked/unlinked chain based on whether URL is configured
+(function(){
+  var saved=localStorage.getItem('appsScriptUrl');
+  if(saved){
+    document.getElementById('settingsBtn').title='Apps Script Connected — click to change';
+    document.getElementById('settingsBtn').querySelector('.settings-btn-icon').innerHTML=`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M7 10.5a3.5 3.5 0 0 0 4.95 0l1.5-1.5a3.5 3.5 0 0 0-4.95-4.95l-.86.85" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/> <path d="M11 7.5a3.5 3.5 0 0 0-4.95 0l-1.5 1.5a3.5 3.5 0 0 0 4.95 4.95l.85-.85" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/> </svg>`;
+    document.getElementById('settingsBtn').querySelector('.settings-btn-icon').style.borderColor='var(--blue)';
+    document.getElementById('settingsBtnLabel').textContent='Apps Script Connected';
+    document.getElementById('settingsBtnLabel').style.color='var(--muted)';
+  }
+})();
+</script>
+</body>
+</html>
