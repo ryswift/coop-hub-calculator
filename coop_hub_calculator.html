@@ -229,75 +229,106 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
 .retail-input-warn{border-color:var(--warn) !important;}
 
 @media print {
-  /* Print-only header */
-  .print-header { display: flex !important; align-items: center; justify-content: space-between; padding: 14px 36px 10px; border-bottom: 3px solid #6FBCCE; margin-bottom: 16px; }
+  /* ── Print header ── */
+  .print-header { display: flex !important; align-items: center; justify-content: space-between; padding: 14px 52px 10px; border-bottom: 3px solid #6FBCCE; margin-bottom: 18px; }
   .print-header-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; color: #0C1D43; letter-spacing: .04em; text-transform: uppercase; }
   .print-header-title span { color: #6FBCCE; }
   .print-header-conf { font-family: 'Barlow', sans-serif; font-size: 11px; color: #6B7A99; letter-spacing: .04em; }
-  /* Hide all interactive elements */
+
+  /* ── Hide interactive elements ── */
   .topbar, .hero, .add-pkg-btn, .add-small-btn, .btn, .sec-hd button,
   .rr-expand-btn, .series-toggle-btn, .series-stepper-btn, .inclusion-rm,
   #deckLinkBtn, #deckVersionNote, button { display: none !important; }
-  /* Reset layout */
-  body { background: white; color: #0C1D43; margin: 0; font-family: 'Barlow', sans-serif; }
+
+  /* ── Base ── */
+  body { background: white; color: #0C1D43; margin: 0; font-family: 'Barlow', sans-serif; font-size: 13px; }
   .main { padding: 0 52px 28px; max-width: none; }
   * { color: #0C1D43 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  /* Section headings */
-  .sec-title { font-family: 'Barlow Condensed', sans-serif !important; font-size: 16px !important; font-weight: 700 !important; letter-spacing: .08em !important; text-transform: uppercase !important; color: #0C1D43 !important; }
-  .sec-hd { margin-bottom: 6px !important; }
+
+  /* ── Section headings — Barlow Condensed Bold, matching calculator ── */
+  .sec-title { font-family: 'Barlow Condensed', sans-serif !important; font-size: 18px !important; font-weight: 600 !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
+  .sec-hd { margin-bottom: 8px !important; }
   .section { margin-bottom: 22px; }
-  /* Cards */
+
+  /* ── Cards ── */
   .card { padding: 18px 24px; border: 1.5px solid #c0cad8; border-radius: 8px; margin-bottom: 14px; }
-  /* Hub Build Cost box — white bg, matching card style */
+
+  /* ── Hub Build Cost box ── */
   .build-box { background: white !important; border: 1.5px solid #c0cad8 !important; border-radius: 8px !important; overflow: hidden !important; margin-bottom: 14px !important; padding: 18px 24px !important; gap: 24px !important; }
   .build-left { background: white !important; padding: 0 !important; }
   .build-right { background: white !important; padding: 0 !important; }
   .build-divider { display: none !important; }
-  .build-total { color: #0C1D43 !important; font-family: 'Barlow Condensed', sans-serif !important; font-size: 32px !important; font-weight: 700 !important; }
+  .build-total { font-family: 'Barlow Condensed', sans-serif !important; font-size: 32px !important; font-weight: 700 !important; }
   .build-lbl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; color: #6B7A99 !important; margin-bottom: 2px; }
-  .build-note { font-size: 12px !important; color: #6B7A99 !important; margin-top: 2px; }
-  .bar-lbl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; color: #6B7A99 !important; }
-  .bar-pct { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; color: #0C1D43 !important; }
+  .build-note { font-family: 'Barlow', sans-serif !important; font-size: 12px !important; color: #6B7A99 !important; }
+  .bar-lbl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; }
+  .bar-pct { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; }
   .bar { height: 4px; background: #e0e6ef; border-radius: 2px; margin: 4px 0; }
   .bar-fill { background: #6FBCCE !important; height: 4px; border-radius: 2px; }
-  /* Build tier rows — compact, aligned */
+
+  /* ── Build tier rows ── */
   .build-tier-row { display: flex; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #edf0f5; }
   .build-tier-row:last-child { border-bottom: none; }
   .build-tier-left { flex: 1; }
-  .build-tier-name { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; color: #0C1D43 !important; }
-  .build-tier-meta { font-size: 11px !important; color: #6B7A99 !important; }
+  .build-tier-name { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; }
+  .build-tier-meta { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: #6B7A99 !important; }
   .build-tier-mid { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: #6B7A99 !important; text-transform: uppercase; letter-spacing: .06em; padding: 0 16px; }
   .build-tier-mid input { display: none !important; }
   .build-tier-right { text-align: right; min-width: 80px; }
-  .build-tier-cost { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-size: 18px !important; color: #0C1D43 !important; }
-  .build-tier-cost-sub { font-size: 10px !important; color: #6B7A99 !important; }
-  /* Package cards */
+  .build-tier-cost { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-size: 18px !important; }
+  .build-tier-cost-sub { font-family: 'Barlow', sans-serif !important; font-size: 10px !important; color: #6B7A99 !important; }
+
+  /* ── Form fields — Barlow, matching calculator ── */
+  .field label { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; font-size: 12px !important; letter-spacing: .06em !important; text-transform: uppercase !important; color: #6B7A99 !important; }
+  input, select { font-family: 'Barlow', sans-serif !important; font-size: 14px !important; font-weight: 400 !important; border: 1.5px solid #c0cad8 !important; border-radius: 5px !important; padding: 6px 10px !important; }
+  select { -webkit-appearance: none; appearance: none; }
+  .cbrow input[type="checkbox"], .series-panel, .rr-expand-btn, a[href*="example"], .add-small-btn { display: none !important; }
+
+  /* ── Package cards ── */
   .pkg { border: 1.5px solid #c0cad8; border-radius: 8px; margin-bottom: 18px; overflow: hidden; }
-  .pkg-header { background: #0C1D43 !important; padding: 10px 16px !important; }
-  .pkg-num { font-family: 'Barlow Condensed', sans-serif !important; color: #6FBCCE !important; font-size: 22px !important; font-weight: 700 !important; }
-  .pkg-rank-word { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: rgba(255,255,255,.5) !important; }
-  .pkg-name { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; font-size: 14px !important; color: white !important; }
-  /* Results column */
-  .pkg-results { background: #f4f7fb !important; padding: 14px 16px !important; }
-  .rr { display: flex; justify-content: space-between; padding: 3px 0; font-size: 13px !important; }
-  .rv { font-weight: 700 !important; font-size: 13px !important; }
-  .rr-total { font-weight: 700 !important; }
-  /* Post-sale note */
+  .pkg-header { background: #0C1D43 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 10px 16px !important; display: flex; align-items: center; gap: 10px; }
+
+  /* ── Tier number — Barlow Condensed Bold White ── */
+  .pkg-num { font-family: 'Barlow Condensed', sans-serif !important; font-size: 28px !important; font-weight: 700 !important; color: white !important; line-height: 1; }
+
+  /* ── TIER label ── */
+  .pkg-rank-word { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 700 !important; letter-spacing: .18em !important; text-transform: uppercase !important; color: rgba(255,255,255,0.5) !important; }
+
+  /* ── Package name ── */
+  .pkg-name { font-family: 'Barlow', sans-serif !important; font-size: 16px !important; font-weight: 600 !important; color: white !important; border-bottom: none !important; }
+  input.pkg-name { font-family: 'Barlow', sans-serif !important; font-size: 16px !important; font-weight: 600 !important; color: white !important; background: transparent !important; border: none !important; }
+
+  /* ── Section titles inside pkg (HUB PRESENCE, STORY, PROMOTION) ── */
+  .pkg-section-title { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; letter-spacing: .1em !important; text-transform: uppercase !important; color: #6FBCCE !important; margin-bottom: 8px !important; }
+
+  /* ── Hub placements ── */
+  .inclusion-row:not(.active) { display: none !important; }
+  .inclusion-name { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; font-size: 13px !important; }
+  .inclusion-desc { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: #6B7A99 !important; }
+
+  /* ── Cost results ── */
+  .pkg-results { background: #f4f7fb !important; padding: 14px 18px !important; }
+  .rr { font-family: 'Barlow', sans-serif !important; font-size: 13px !important; display: flex; justify-content: space-between; padding: 3px 0; }
+  .rr-total { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 14px !important; }
+  .rv { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; }
+
+  /* ── Promotion fields ── */
+  .promo-fl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; }
+  .promo-monthly { font-family: 'Barlow', sans-serif !important; font-size: 12px !important; font-weight: 600 !important; color: #6FBCCE !important; }
+
+  /* ── Add-ons ── */
+  .addon-card-name { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; font-size: 13px !important; }
+  .addon-card-desc { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; }
+  .addon-card-price { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 600 !important; font-size: 16px !important; }
+  .addon-card:not(.active) { display: none !important; }
+
+  /* ── Post-sale note ── */
   .post-sale-note { padding: 14px 18px; border: 1px solid #c8dce0; border-radius: 6px; background: #f0f8fa !important; margin-top: 12px; }
-  .post-sale-note-text { font-size: 12px !important; }
-  /* Pkg column section spacing */
+  .post-sale-note-text { font-family: 'Barlow', sans-serif !important; font-size: 12px !important; }
+
+  /* ── Pkg section spacing ── */
   .pkg-section { padding: 14px 18px !important; }
   .pkg-results { padding: 16px 18px !important; }
-  /* Hide inactive/muted placements */
-  .inclusion-row:not(.active) { display: none !important; }
-  /* Dropdowns as plain text */
-  select { -webkit-appearance: none; appearance: none; border: none !important; background: transparent !important; padding: 0 !important; font-weight: 600; font-size: 14px !important; }
-  /* Hide UI chrome */
-  .cbrow input[type="checkbox"], .series-panel, .rr-expand-btn, a[href*="example"], .add-small-btn { display: none !important; }
-  /* Pkg tier number */
-  .pkg-num { color: #6FBCCE !important; font-family: 'Barlow Condensed', sans-serif !important; font-size: 22px !important; font-weight: 700 !important; }
-  /* Header bar prints dark */
-  .pkg-header { background: #0C1D43 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 </style>
 
@@ -329,10 +360,10 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
     <h2>Program Copy</h2>
     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;padding:12px 14px;background:var(--off);border-radius:6px;border:1px solid var(--border);">
       <div>
-        <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;">ChatGPT Copy Helper</div>
-        <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.4;">Opens ChatGPT with a ready-made prompt. Paste the output back into the fields below.</p>
+        <div style="font-family:'Barlow',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;">Claude Copy Helper</div>
+        <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.4;">Opens Claude with a ready-made prompt. Paste the output back into the fields below.</p>
       </div>
-      <button onclick="openChatGPTHelper()" style="flex-shrink:0;background:var(--navy);border:none;border-radius:5px;padding:8px 14px;font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:white;cursor:pointer;white-space:nowrap;">Open ↗</button>
+      <button onclick="openClaudeHelper()" style="flex-shrink:0;background:var(--navy);border:none;border-radius:5px;padding:8px 14px;font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:white;cursor:pointer;white-space:nowrap;">Open ↗</button>
     </div>
 
     <label for="promptHubDesc">What is this co-op hub program about and which Hearst market is hosting?</label>
@@ -372,7 +403,7 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
 </div>
 
 <div class="print-header" style="display:none;">
-  <img src="data:image/png;base64,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" alt="The Story Studio" style="height:34px;width:auto;">
+  <img src="data:image/png;base64,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" alt="The Story Studio" style="height:32px;width:auto;">
   <div class="print-header-title">CO-OP HUB <span>PACKAGING / PRICING</span></div>
   <div class="print-header-conf">Confidential — Please Do Not Distribute</div>
 </div>
@@ -816,7 +847,7 @@ async function generateDeck(){
   if(savedAud) document.getElementById('promptAudience').value=savedAud;
   document.getElementById('promptModal').classList.add('open');
 }
-function openChatGPTHelper(){
+function openClaudeHelper(){
   var data=getCalcData();
   var hub=data.hubName||'[Hub Name]';
   var station=data.station||'[Station]';
@@ -825,7 +856,7 @@ function openChatGPTHelper(){
     '2. TAGLINE (under 10 words): Bold, memorable tagline for this program.\n'+
     '3. TARGETING (1 sentence): Who is the target audience?\n\n'+
     'Keep the tone professional and sponsor-facing. Return only the three labeled items, no intro or explanation.';
-  window.open('https://chat.openai.com/?q='+encodeURIComponent(prompt),'_blank');
+  window.open('https://claude.ai/new?q='+encodeURIComponent(prompt),'_blank');
 }
 function closePrompt(){
   document.getElementById('promptModal').classList.remove('open');
@@ -864,7 +895,7 @@ async function submitPromptAndGenerate(){
     btn.disabled=false;
   }
 }
-function openChatGPTHelper(){
+function openClaudeHelper(){
   var data=getCalcData();
   var hub=data.hubName||'[Hub Name]';
   var station=data.station||'[Station]';
@@ -873,7 +904,7 @@ function openChatGPTHelper(){
     '2. TAGLINE (under 10 words): Bold, memorable tagline for this program.\n'+
     '3. TARGETING (1 sentence): Who is the target audience?\n\n'+
     'Keep the tone professional and sponsor-facing. Return only the three labeled items, no intro or explanation.';
-  window.open('https://chat.openai.com/?q='+encodeURIComponent(prompt),'_blank');
+  window.open('https://claude.ai/new?q='+encodeURIComponent(prompt),'_blank');
 }
 function closePrompt(){
   document.getElementById('promptModal').classList.remove('open');
