@@ -461,11 +461,9 @@ function updPkgCustomAddon(pkgId,addonId,field,val){
     p.pkgAddonActive[addonId]=!p.pkgAddonActive[addonId];
     recalcPkgRetail(p);recalc();
   } else if(a){
-    if(field==='price') a.price=parseFloat(val)||0;
+    if(field==='price'){a.price=parseFloat(val)||0;pkgs.forEach(function(p){recalcPkgRetail(p);});recalc();}
     else if(field==='name') a.name=val;
     else if(field==='desc') a.desc=val;
-    pkgs.forEach(function(p){recalcPkgRetail(p);});
-    recalc();
   }
 }
 function addAddon(pr){
@@ -721,7 +719,7 @@ async function generateDeck(){
   btn.disabled=true;
   try{
     const SCRIPT_URL=localStorage.getItem('appsScriptUrl')||'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
-    const resp=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const resp=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data),redirect:'follow'});
     const result=await resp.json();
     if(result.deckUrl){
       const key='deckUrl_'+data.hubName+'_'+data.station;
