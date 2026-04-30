@@ -724,8 +724,8 @@ function recalc(){hideDeckBtn&&hideDeckBtn();var _vn=document.getElementById('de
 ${sharedCustomAddons.map(function(a){var _active=(p.pkgAddonActive||{})[a.id];return `<div class="addon-card${_active?' active':''}" style="border-radius:6px;margin-top:7px;" onclick="updPkgCustomAddon(${p.id},${a.id},'active')">
       <div class="addon-card-check"><span class="addon-card-check-tick">✓</span></div>
       <div class="addon-card-body" style="padding:7px 6px 7px 0;">
-        <input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Add-on name" onclick="event.stopPropagation()" oninput="event.stopPropagation();updPkgCustomAddon(${p.id},${a.id},'name',this.value)" style="border:none;border-bottom:1px solid var(--border);background:transparent;outline:none;width:100%;font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;color:var(--navy);padding:2px 0;margin-bottom:3px;">
-        <input type="text" value="" placeholder="Description (optional)" onclick="event.stopPropagation()" oninput="event.stopPropagation()" style="border:none;background:transparent;outline:none;width:100%;font-family:'Barlow',sans-serif;font-size:12px;color:var(--muted);padding:2px 0;">
+        <input type="text" value="${a.name.replace(/"/g,'&quot;')}" placeholder="Add-on name" onclick="event.stopPropagation()" onchange="event.stopPropagation();updPkgCustomAddon(${p.id},${a.id},'name',this.value)" style="border:none;border-bottom:1px solid var(--border);background:transparent;outline:none;width:100%;font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;color:var(--navy);padding:2px 0;margin-bottom:3px;">
+        <input type="text" value="${(a.desc||'').replace(/"/g,'&quot;')}" placeholder="Description (optional)" onclick="event.stopPropagation()" onchange="event.stopPropagation();updPkgCustomAddon(${p.id},${a.id},'desc',this.value)" style="border:none;background:transparent;outline:none;width:100%;font-family:'Barlow',sans-serif;font-size:12px;color:var(--muted);padding:2px 0;">
       </div>
       <div style="display:flex;align-items:center;gap:4px;padding:0 8px;flex-shrink:0;">
         <span style="font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;color:var(--muted);">$</span>
@@ -921,6 +921,7 @@ function saveProgress(){
       station:document.getElementById('station').value,
       division:document.getElementById('division').value,
       hubType:document.getElementById('hubType').value,
+    promoLength:parseFloat(document.getElementById('promoLength').value)||6,
       promoLength:document.getElementById('promoLength').value,
       launchDate:document.getElementById('launchDate').value,
       buildType:document.getElementById('buildType').value,
