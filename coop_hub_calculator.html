@@ -229,6 +229,12 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
 .retail-input-warn{border-color:var(--warn) !important;}
 
 @media print {
+  /* Print-only header */
+  .print-header { display: flex !important; align-items: center; justify-content: space-between; padding: 16px 36px 12px; border-bottom: 3px solid #6FBCCE; margin-bottom: 20px; }
+  .print-header-logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; color: #0C1D43; letter-spacing: .05em; line-height: 1.2; }
+  .print-header-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; color: #0C1D43; letter-spacing: .04em; text-transform: uppercase; }
+  .print-header-title span { color: #6FBCCE; }
+  .print-header-conf { font-family: 'Barlow', sans-serif; font-size: 11px; color: #6B7A99; letter-spacing: .04em; }
   .topbar, .hero, .add-pkg-btn, .add-small-btn, .btn, .sec-hd button,
   .rr-expand-btn, .series-toggle-btn, .series-stepper-btn, .inclusion-rm,
   #deckLinkBtn, button { display: none !important; }
@@ -277,12 +283,7 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
     <img src="data:image/png;base64,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" alt="The Story Studio">
   </div>
   <div class="topbar-tag">Confidential — Please Do Not Distribute</div>
-  <a href="#" id="deckLink" target="_blank" rel="noopener" id="topDeckLink"
-    style="flex-shrink:0;display:none;align-items:center;gap:8px;font-family:'Barlow',sans-serif;font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);background:var(--blue);border:none;border-radius:5px;padding:6px 14px;text-decoration:none;transition:opacity .15s;white-space:nowrap;cursor:pointer;"
-    onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-    <svg width="14" height="11" viewBox="0 0 16 13" fill="none" style="flex-shrink:0"><rect x="0.75" y="0.75" width="14.5" height="10.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 12.25v0M5.5 12.25h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3.5" y="3" width="9" height="5.5" rx="1" fill="currentColor" opacity=".25"/><path d="M6.5 4.5l3 1.25-3 1.25V4.5z" fill="currentColor"/></svg>
-    See Program Deck
-  </a>
+
   <button class="settings-btn" id="settingsBtn" onclick="openSettings()" title="Connect Apps Script">
     <div class="settings-btn-icon">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -335,6 +336,11 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   </div>
 </div>
 
+<div class="print-header" style="display:none;">
+  <div class="print-header-logo">THE<br>STORYSTUDIO</div>
+  <div class="print-header-title">CO-OP HUB <span>PACKAGING / PRICING</span></div>
+  <div class="print-header-conf">Confidential — Please Do Not Distribute</div>
+</div>
 <div class="main">
 
   <!-- 01 Program Details -->
@@ -644,7 +650,7 @@ function render(){
   if(typeof recalc==='function') recalc();
 }
 
-function recalc(){
+function recalc(){hideDeckBtn&&hideDeckBtn();var _vn=document.getElementById('deckVersionNote');if(_vn)_vn.style.display='none';
   const div=document.getElementById('division').value,hifi=document.getElementById('hifi').checked,sep=document.getElementById('sepLineItem').checked,mo=getMo(),base=getBase(),eff=base-(hifi?1500:0);
   if(hifi){
     document.getElementById('buildTotal').innerHTML=`<span style="text-decoration:line-through;opacity:.4;font-size:32px;">$${fmtN(base)}</span><br><span style="color:var(--blue)">$${fmtN(eff)}</span>`;
@@ -788,6 +794,7 @@ async function submitPromptAndGenerate(){
     if(result.deckUrl){
       setDeckLink(result.deckUrl);
       btn.textContent='Deck Generated ✓';
+      var vn=document.getElementById('deckVersionNote');if(vn)vn.style.display='flex';
       setTimeout(function(){btn.textContent='Generate Deck';btn.disabled=false;},3000);
     } else {
       throw new Error(result.error||'Unknown error');
@@ -821,6 +828,7 @@ async function submitPromptAndGenerate(){
       localStorage.setItem(key,result.deckUrl);
       setDeckLink(result.deckUrl);
       btn.textContent='Deck Generated ✓';
+      var vn=document.getElementById('deckVersionNote');if(vn)vn.style.display='flex';
       setTimeout(()=>{btn.textContent='Generate Deck';btn.disabled=false;},3000);
     } else {
       throw new Error(result.error||'Unknown error');
@@ -855,10 +863,12 @@ function saveSettings(){
   closeSettings();
 }
 function setDeckLink(url){
-  const topbarLink=document.getElementById('deckLink');
-  if(topbarLink){topbarLink.href=url;topbarLink.style.display='inline-flex';}
   const bottomBtn=document.getElementById('deckLinkBtn');
   if(bottomBtn){bottomBtn.href=url;bottomBtn.style.display='inline-flex';}
+}
+function hideDeckBtn(){
+  const bottomBtn=document.getElementById('deckLinkBtn');
+  if(bottomBtn){bottomBtn.style.display='none';}
 }
 function initDeckLink(){
   const hub=document.getElementById('hubName').value;
@@ -1011,5 +1021,12 @@ if(!loadProgress()){
   }
 })();
 </script>
+
+
+<div id="deckVersionNote" style="display:none;align-items:flex-start;gap:10px;margin:12px 32px 0;padding:12px 16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;font-family:'Barlow',sans-serif;font-size:13px;color:#92620a;line-height:1.5;max-width:1300px;">
+  <span style="font-size:16px;flex-shrink:0;">⚠</span>
+  <span><strong>Reminder:</strong> If you previously generated a deck for this program, delete the old version from your Google Drive folder before sharing.</span>
+</div>
+
 </body>
 </html>
