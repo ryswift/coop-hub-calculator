@@ -928,7 +928,7 @@ function saveProgress(){
       hifi:document.getElementById('hifi').checked,
       sepLineItem:document.getElementById('sepLineItem').checked,
       // Packages and addons
-      pkgs:JSON.stringify(pkgs.filter(function(p){return p.name||p.layout!=='none'||p.retail>0||p.minSponsors>0;})),
+      pkgs:JSON.stringify(pkgs.filter(function(p){return (p.name&&p.name.trim())||p.retail>0||p.minSponsors>0||(p.inclusions&&p.inclusions.some(function(i){return i.active;}));})),
       addons:JSON.stringify(addons),
       pid:pid,
       aid:aid,
