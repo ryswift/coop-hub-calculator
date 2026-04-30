@@ -927,7 +927,7 @@ function saveProgress(){
       hifi:document.getElementById('hifi').checked,
       sepLineItem:document.getElementById('sepLineItem').checked,
       // Packages and addons
-      pkgs:JSON.stringify(pkgs),
+      pkgs:JSON.stringify(pkgs.filter(function(p){return p.name||p.layout!=='none'||p.retail>0||p.minSponsors>0;})),
       addons:JSON.stringify(addons),
       pid:pid,
       aid:aid,
@@ -969,6 +969,8 @@ function loadProgress(){
       pkgs=JSON.parse(state.pkgs);
       pid=state.pid||pkgs.length;
     }
+    // Safety: if no packages restored, add one blank
+    if(pkgs.length===0){ pkgs=[]; addPackage(); }
     // Restore addons
     if(state.addons){
       addons=JSON.parse(state.addons);
