@@ -1006,10 +1006,11 @@ function loadProgress(){
     });
     if(state.hifi!==undefined) document.getElementById('hifi').checked=state.hifi;
     if(state.sepLineItem!==undefined) document.getElementById('sepLineItem').checked=state.sepLineItem;
-    // Restore packages
+    // Restore packages — filter out blank/empty ones on load too
     if(state.pkgs){
-      pkgs=JSON.parse(state.pkgs);
-      pid=state.pid||pkgs.length;
+      var allPkgs=JSON.parse(state.pkgs);
+      pkgs=allPkgs.filter(function(p){return p.name||p.layout!=='none'||p.retail>0||p.minSponsors>0;});
+      pid=state.pid||allPkgs.length;
     }
     // Safety: if no packages restored, add one blank
     if(pkgs.length===0){ pkgs=[]; addPackage(); }
