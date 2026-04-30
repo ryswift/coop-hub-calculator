@@ -241,19 +241,19 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   #deckLinkBtn, #deckVersionNote, button { display: none !important; }
   /* Reset layout */
   body { background: white; color: #0C1D43; margin: 0; font-family: 'Barlow', sans-serif; }
-  .main { padding: 0 36px 20px; max-width: none; }
+  .main { padding: 0 52px 28px; max-width: none; }
   * { color: #0C1D43 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   /* Section headings */
   .sec-title { font-family: 'Barlow Condensed', sans-serif !important; font-size: 16px !important; font-weight: 700 !important; letter-spacing: .08em !important; text-transform: uppercase !important; color: #0C1D43 !important; }
   .sec-hd { margin-bottom: 6px !important; }
-  .section { margin-bottom: 16px; }
+  .section { margin-bottom: 22px; }
   /* Cards */
-  .card { padding: 14px 18px; border: 1.5px solid #c0cad8; border-radius: 8px; margin-bottom: 10px; }
-  /* Hub Build Cost box */
-  .build-box { border: 1.5px solid #c0cad8; border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
-  .build-left { background: white !important; padding: 12px 18px 8px; }
-  .build-right { padding: 8px 18px 12px; }
-  .build-divider { display: none; }
+  .card { padding: 18px 24px; border: 1.5px solid #c0cad8; border-radius: 8px; margin-bottom: 14px; }
+  /* Hub Build Cost box — white bg, matching card style */
+  .build-box { background: white !important; border: 1.5px solid #c0cad8 !important; border-radius: 8px !important; overflow: hidden !important; margin-bottom: 14px !important; padding: 18px 24px !important; gap: 24px !important; }
+  .build-left { background: white !important; padding: 0 !important; }
+  .build-right { background: white !important; padding: 0 !important; }
+  .build-divider { display: none !important; }
   .build-total { color: #0C1D43 !important; font-family: 'Barlow Condensed', sans-serif !important; font-size: 32px !important; font-weight: 700 !important; }
   .build-lbl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; color: #6B7A99 !important; margin-bottom: 2px; }
   .build-note { font-size: 12px !important; color: #6B7A99 !important; margin-top: 2px; }
@@ -262,7 +262,7 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   .bar { height: 4px; background: #e0e6ef; border-radius: 2px; margin: 4px 0; }
   .bar-fill { background: #6FBCCE !important; height: 4px; border-radius: 2px; }
   /* Build tier rows — compact, aligned */
-  .build-tier-row { display: flex; align-items: baseline; padding: 6px 0; border-bottom: 1px solid #edf0f5; }
+  .build-tier-row { display: flex; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #edf0f5; }
   .build-tier-row:last-child { border-bottom: none; }
   .build-tier-left { flex: 1; }
   .build-tier-name { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; color: #0C1D43 !important; }
@@ -273,7 +273,7 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   .build-tier-cost { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-size: 18px !important; color: #0C1D43 !important; }
   .build-tier-cost-sub { font-size: 10px !important; color: #6B7A99 !important; }
   /* Package cards */
-  .pkg { border: 1.5px solid #c0cad8; border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+  .pkg { border: 1.5px solid #c0cad8; border-radius: 8px; margin-bottom: 18px; overflow: hidden; }
   .pkg-header { background: #0C1D43 !important; padding: 10px 16px !important; }
   .pkg-num { font-family: 'Barlow Condensed', sans-serif !important; color: #6FBCCE !important; font-size: 22px !important; font-weight: 700 !important; }
   .pkg-rank-word { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: rgba(255,255,255,.5) !important; }
@@ -284,8 +284,11 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   .rv { font-weight: 700 !important; font-size: 13px !important; }
   .rr-total { font-weight: 700 !important; }
   /* Post-sale note */
-  .post-sale-note { padding: 10px 14px; border: 1px solid #c8dce0; border-radius: 6px; background: #f0f8fa !important; margin-top: 8px; }
+  .post-sale-note { padding: 14px 18px; border: 1px solid #c8dce0; border-radius: 6px; background: #f0f8fa !important; margin-top: 12px; }
   .post-sale-note-text { font-size: 12px !important; }
+  /* Pkg column section spacing */
+  .pkg-section { padding: 14px 18px !important; }
+  .pkg-results { padding: 16px 18px !important; }
 }
 </style>
 
@@ -729,7 +732,7 @@ ${sharedCustomAddons.map(function(a){var _active=(p.pkgAddonActive||{})[a.id];re
       </div>
       <div style="display:flex;align-items:center;gap:4px;padding:0 8px;flex-shrink:0;">
         <span style="font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;color:var(--muted);">$</span>
-        <input type="number" value="${a.price||''}" placeholder="0" onclick="event.stopPropagation()" oninput="event.stopPropagation();updPkgCustomAddon(${p.id},${a.id},'price',this.value)" style="border:none;border-bottom:1px solid var(--border);background:transparent;outline:none;width:60px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;color:var(--navy);padding:2px 0;text-align:right;">
+        <input type="number" value="${a.price||''}" placeholder="0" onclick="event.stopPropagation()" onchange="event.stopPropagation();updPkgCustomAddon(${p.id},${a.id},'price',this.value)" style="border:none;border-bottom:1px solid var(--border);background:transparent;outline:none;width:60px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;color:var(--navy);padding:2px 0;text-align:right;">
         <button onclick="event.stopPropagation();removePkgCustomAddon(${p.id},${a.id})" style="background:none;border:none;color:var(--border);cursor:pointer;font-size:14px;line-height:1;padding:0 2px;flex-shrink:0;" onmouseover="this.style.color='#f88'" onmouseout="this.style.color='var(--border)'">×</button>
       </div>
     </div>`;}).join('')}
