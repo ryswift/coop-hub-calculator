@@ -232,11 +232,22 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   .topbar, .hero a, .add-pkg-btn, .add-small-btn, .btn, .sec-hd button,
   .rr-expand-btn, .series-toggle-btn, .series-stepper-btn, .inclusion-rm,
   #deckLinkBtn, button { display: none !important; }
-  .pkg { break-inside: avoid; border: 1px solid #ccc; }
-  .section { break-inside: avoid; }
-  body { background: white; }
-  .main { padding: 12px; }
+  .pkg { break-inside: avoid; border: 1px solid #aab; page-break-inside: avoid; }
+  .section { break-inside: avoid; page-break-inside: avoid; margin-bottom: 24px; }
+  body { background: white; color: #0C1D43; margin: 0; }
+  .main { padding: 28px 40px; max-width: none; }
   .topbar-right { display: none; }
+  /* Darken all text to navy */
+  * { color: #0C1D43 !important; }
+  .rv, .rr-val, .build-tier-cost { color: #0C1D43 !important; font-weight: 700; }
+  .pkg-results { background: #f0f4fa !important; }
+  /* Hub build panel — align cost column */
+  .build-tier-row { display: flex; align-items: center; }
+  .build-tier-right { min-width: 90px; text-align: right; margin-left: auto; }
+  /* Breathing room */
+  .card { padding: 20px 24px; border: 1px solid #c0cad8; border-radius: 8px; margin-bottom: 16px; }
+  .sec-title { font-size: 18px !important; }
+  .build-panel { border-radius: 8px; overflow: hidden; }
 }
 </style>
 
@@ -248,6 +259,12 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
     <img src="data:image/png;base64,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" alt="The Story Studio">
   </div>
   <div class="topbar-tag">Confidential — Please Do Not Distribute</div>
+  <a href="#" id="deckLink" target="_blank" rel="noopener" id="topDeckLink"
+    style="flex-shrink:0;display:none;align-items:center;gap:8px;font-family:'Barlow',sans-serif;font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);background:var(--blue);border:none;border-radius:5px;padding:6px 14px;text-decoration:none;transition:opacity .15s;white-space:nowrap;cursor:pointer;"
+    onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+    <svg width="14" height="11" viewBox="0 0 16 13" fill="none" style="flex-shrink:0"><rect x="0.75" y="0.75" width="14.5" height="10.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 12.25v0M5.5 12.25h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3.5" y="3" width="9" height="5.5" rx="1" fill="currentColor" opacity=".25"/><path d="M6.5 4.5l3 1.25-3 1.25V4.5z" fill="currentColor"/></svg>
+    See Program Deck
+  </a>
   <button class="settings-btn" id="settingsBtn" onclick="openSettings()" title="Connect Apps Script">
     <div class="settings-btn-icon">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -259,6 +276,24 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
     </div>
     <span class="settings-btn-label" id="settingsBtnLabel" style="color:var(--blue);">Connect Apps Script</span>
   </button>
+</div>
+
+<!-- Pre-Generation Prompt Modal -->
+<div class="settings-modal" id="promptModal" onclick="if(event.target===this)closePrompt()">
+  <div class="settings-box" style="max-width:560px;">
+    <h2>Program Context</h2>
+    <p>Help us write the deck copy. Answer a few quick questions and AI will fill in all placeholder text — only imagery to swap after.</p>
+    <label for="promptHubDesc">What is this co-op hub program about? Who is the target audience?</label>
+    <textarea id="promptHubDesc" rows="3" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:16px;resize:vertical;" placeholder="e.g. A hub for Austin-area car dealerships targeting Central Texas drivers actively shopping for vehicles."></textarea>
+    <label for="promptTagline">What tagline or key message should anchor the program?</label>
+    <textarea id="promptTagline" rows="2" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:16px;resize:vertical;" placeholder="e.g. Creating Connections That Drive Austin Forward"></textarea>
+    <label for="promptSponsorPitch">What should sponsors know about why this is a great buy-in opportunity?</label>
+    <textarea id="promptSponsorPitch" rows="3" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:20px;resize:vertical;" placeholder="e.g. Hearst's trusted editorial brand combined with targeted digital reach gives sponsors unmatched access to high-intent local buyers."></textarea>
+    <div class="settings-row">
+      <button class="btn btn-s" onclick="closePrompt()">Cancel</button>
+      <button class="btn btn-p" id="promptGenerateBtn" onclick="submitPromptAndGenerate()">Generate Deck</button>
+    </div>
+  </div>
 </div>
 
 <!-- Settings Modal -->
@@ -275,14 +310,8 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   </div>
 </div>
 
-<div class="hero"  style="display:flex;align-items:center;justify-content:space-between;gap:20px;">
+<div class="hero">
   <h1>CO-OP HUB <span>PACKAGING / PRICING</span></h1>
-  <a href="#" id="deckLink" target="_blank" rel="noopener"
-    style="flex-shrink:0;display:inline-flex;align-items:center;gap:8px;font-family:'Barlow',sans-serif;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);background:var(--blue);border:none;border-radius:6px;padding:10px 18px;text-decoration:none;transition:opacity .15s;white-space:nowrap;cursor:pointer;"
-    onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-    <svg width="16" height="13" viewBox="0 0 16 13" fill="none" style="flex-shrink:0"><rect x="0.75" y="0.75" width="14.5" height="10.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 12.25v0M5.5 12.25h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3.5" y="3" width="9" height="5.5" rx="1" fill="currentColor" opacity=".25"/><path d="M6.5 4.5l3 1.25-3 1.25V4.5z" fill="currentColor"/></svg>
-    See Program Deck
-  </a>
 </div>
 
 <div class="main">
@@ -367,9 +396,9 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
 
   <div class="btn-row">
     <button class="btn btn-p" onclick="generateDeck()" id="generateDeckBtn">Generate Deck</button>
-    <button class="btn btn-s" onclick="window.print()">Print / PDF</button>
-    <a id="deckLinkBtn" href="#" target="_blank" rel="noopener" style="padding:7px 16px;background:var(--blue);color:var(--navy);font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;border-radius:6px;text-decoration:none;display:none;align-items:center;gap:6px;">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="0.75" y="0.75" width="12.5" height="12.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+    <button class="btn btn-s" onclick="printVersioned()">Print / PDF</button>
+    <a id="deckLinkBtn" href="#" target="_blank" rel="noopener" style="padding:10px 20px;background:var(--blue);color:var(--navy);font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;text-decoration:none;display:none;align-items:center;gap:8px;">
+      <svg width="16" height="13" viewBox="0 0 16 13" fill="none" style="flex-shrink:0"><rect x="0.75" y="0.75" width="14.5" height="10.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 12.25v0M5.5 12.25h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3.5" y="3" width="9" height="5.5" rx="1" fill="currentColor" opacity=".25"/><path d="M6.5 4.5l3 1.25-3 1.25V4.5z" fill="currentColor"/></svg>
       See Program Deck
     </a>
   </div>
@@ -689,7 +718,9 @@ function getCalcData(){
       impressions:p.impressions,engagements:p.engagements,hasDTS:p.hasDTS,dtsImpressions:p.dtsImpressions,
       seriesActive:p.seriesActive,seriesCount:p.seriesCount,
       ieActive:p.ieActive,ieLevel:p.ieLevel,ieType:p.ieType,
-      inclusions:confirmedInclusions
+      inclusions:confirmedInclusions,
+      pkgAddons:p.pkgAddons||{},
+      customAddons:(sharedCustomAddons||[]).filter(function(a){return (p.pkgAddonActive||{})[a.id];}).map(function(a){return {name:a.name,desc:a.desc,price:a.price,active:true};})
     };
   });
   return {
@@ -705,20 +736,63 @@ function getCalcData(){
     sepLineItem:sep,
     launchDate:document.getElementById('launchDate').value||'',
     year:year,
-    packages:pkgData,standardAddons:Object.entries(standardAddons).filter(([k,v])=>v.active).map(([k,v])=>({name:v.name,price:v.price}))
+    packages:pkgData,standardAddons:Object.entries(standardAddons).filter(([k,v])=>v.active).map(([k,v])=>({name:v.name,price:v.price,desc:k==='dts'?'100k impressions/month':'500k impressions + 1k engagements'}))
   };
 }
 async function generateDeck(){
-  const btn=document.getElementById('generateDeckBtn');
   const data=getCalcData();
   if(!data.hubName||!data.station){
     alert('Please enter a Program / Hub Name and Station before generating the deck.');
     return;
   }
+  document.getElementById('promptModal').classList.add('open');
+}
+function closePrompt(){
+  document.getElementById('promptModal').classList.remove('open');
+}
+async function submitPromptAndGenerate(){
+  const hubDesc=(document.getElementById('promptHubDesc').value||'').trim();
+  const tagline=(document.getElementById('promptTagline').value||'').trim();
+  const sponsorPitch=(document.getElementById('promptSponsorPitch').value||'').trim();
+  document.getElementById('promptModal').classList.remove('open');
+  const btn=document.getElementById('generateDeckBtn');
   btn.textContent='Generating...';
   btn.disabled=true;
   try{
     const SCRIPT_URL=localStorage.getItem('appsScriptUrl')||'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+    const data=getCalcData();
+    data.programContext={hubDesc:hubDesc,tagline:tagline,sponsorPitch:sponsorPitch};
+    const resp=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data),redirect:'follow'});
+    const result=await resp.json();
+    if(result.deckUrl){
+      setDeckLink(result.deckUrl);
+      btn.textContent='Deck Generated ✓';
+      setTimeout(function(){btn.textContent='Generate Deck';btn.disabled=false;},3000);
+    } else {
+      throw new Error(result.error||'Unknown error');
+    }
+  } catch(e){
+    var msg=e.message||'Unknown error';
+    alert('Error generating deck: '+msg+'\n\nMake sure the Apps Script URL is connected via the chain icon.');
+    btn.textContent='Generate Deck';
+    btn.disabled=false;
+  }
+}
+function closePrompt(){
+  document.getElementById('promptModal').classList.remove('open');
+}
+async function submitPromptAndGenerate(){
+  const hubDesc=document.getElementById('promptHubDesc').value.trim();
+  const tagline=document.getElementById('promptTagline').value.trim();
+  const sponsorPitch=document.getElementById('promptSponsorPitch').value.trim();
+  document.getElementById('promptModal').classList.remove('open');
+  const btn=document.getElementById('generateDeckBtn');
+  btn.textContent='Generating...';
+  btn.disabled=true;
+  try{
+    const SCRIPT_URL=localStorage.getItem('appsScriptUrl')||'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+    const data=getCalcData();
+    data.programContext={hubDesc,tagline,sponsorPitch};
     const resp=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data),redirect:'follow'});
     const result=await resp.json();
     if(result.deckUrl){
@@ -732,11 +806,7 @@ async function generateDeck(){
     }
   } catch(e){
     var msg=e.message||'Unknown error';
-    if(msg.indexOf('fetch')!==-1||msg.indexOf('network')!==-1||msg.indexOf('CORS')!==-1){
-      alert('Connection error: The calculator must be opened from a web server (not a local file) to generate decks.\n\nTip: Upload the file to Google Drive and open it from there, or use a local server.');
-    } else {
-      alert('Error: '+msg+'\n\nMake sure the Apps Script URL is saved via the chain icon.');
-    }
+    alert('Error generating deck: '+msg+'\n\nMake sure the Apps Script URL is connected via the chain icon.');
     btn.textContent='Generate Deck';
     btn.disabled=false;
   }
@@ -764,10 +834,10 @@ function saveSettings(){
   closeSettings();
 }
 function setDeckLink(url){
-  const heroLink=document.getElementById('deckLink');
-  if(heroLink){heroLink.href=url;}
-  const topBtn=document.getElementById('deckLinkBtn');
-  if(topBtn){topBtn.href=url;topBtn.style.display='inline-flex';}
+  const topbarLink=document.getElementById('deckLink');
+  if(topbarLink){topbarLink.href=url;topbarLink.style.display='inline-flex';}
+  const bottomBtn=document.getElementById('deckLinkBtn');
+  if(bottomBtn){bottomBtn.href=url;bottomBtn.style.display='inline-flex';}
 }
 function initDeckLink(){
   const hub=document.getElementById('hubName').value;
@@ -780,6 +850,16 @@ function initDeckLink(){
       if(topBtn) topBtn.style.display='none';
     }
   }
+}
+// PDF version counter (resets each page visit)
+var _pdfVersion=0;
+function printVersioned(){
+  _pdfVersion++;
+  var data=getCalcData();
+  var station=(data.station||'Report').replace(/[^a-zA-Z0-9\s]/g,'').trim().replace(/\s+/g,'-');
+  var hub=(data.hubName||'Hub').replace(/[^a-zA-Z0-9\s]/g,'').trim().replace(/\s+/g,'-');
+  document.title=station+'-'+hub+'-Packaging+Pricing-V'+_pdfVersion;
+  setTimeout(function(){window.print();},80);
 }
 // Init defaults
 addPackage();
