@@ -230,10 +230,10 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
 
 @media print {
   /* ── Print header ── */
-  .print-header { display: flex !important; align-items: center; justify-content: space-between; padding: 14px 52px 10px; border-bottom: 3px solid #6FBCCE; margin-bottom: 18px; }
-  .print-header-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; color: #0C1D43; letter-spacing: .04em; text-transform: uppercase; }
-  .print-header-title span { color: #6FBCCE; }
-  .print-header-conf { font-family: 'Barlow', sans-serif; font-size: 11px; color: #6B7A99; letter-spacing: .04em; }
+  .print-header { display: flex !important; align-items: center; justify-content: space-between; padding: 14px 52px 10px; border-bottom: 3px solid #6FBCCE; margin-bottom: 18px; background: white !important; }
+  .print-header-title { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-size: 20px !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
+  .print-header-title span { color: #6FBCCE !important; }
+  .print-header-conf { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: #6B7A99 !important; letter-spacing: .04em !important; }
 
   /* ── Hide interactive elements ── */
   .topbar, .hero, .add-pkg-btn, .add-small-btn, .btn, .sec-hd button,
@@ -241,17 +241,32 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   #deckLinkBtn, #deckVersionNote, button { display: none !important; }
 
   /* ── Base ── */
-  body { background: white; color: #0C1D43; margin: 0; font-family: 'Barlow', sans-serif; font-size: 13px; }
+  body { background: white !important; color: #0C1D43; margin: 0; font-family: 'Barlow', sans-serif; font-size: 13px; }
   .main { padding: 0 52px 28px; max-width: none; }
   * { color: #0C1D43 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-  /* ── Section headings — Barlow Condensed Bold, matching calculator ── */
+  /* ── Section headings ── */
   .sec-title { font-family: 'Barlow Condensed', sans-serif !important; font-size: 18px !important; font-weight: 600 !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
   .sec-hd { margin-bottom: 8px !important; }
   .section { margin-bottom: 22px; }
 
-  /* ── Cards ── */
+  /* ── Cards + form fields ── */
   .card { padding: 18px 24px; border: 1.5px solid #c0cad8; border-radius: 8px; margin-bottom: 14px; }
+  .field label { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; font-size: 12px !important; letter-spacing: .06em !important; text-transform: uppercase !important; color: #6B7A99 !important; }
+  /* Division and Hub Type — add border like other fields */
+  .g3 > .field { border: 1.5px solid #c0cad8; border-radius: 5px; padding: 6px 10px; }
+  input, select { font-family: 'Barlow', sans-serif !important; font-size: 14px !important; font-weight: 400 !important; border: 1.5px solid #c0cad8 !important; border-radius: 5px !important; padding: 6px 10px !important; }
+  select { -webkit-appearance: none; appearance: none; background: white !important; }
+
+  /* ── Hide unchecked checkboxes and their labels ── */
+  .cbrow { display: none !important; }
+  .cbrow:has(input:checked) { display: flex !important; }
+  /* Fallback for browsers without :has — use JS-added class */
+  .cbrow.is-checked { display: flex !important; }
+  /* Hide "See example" links */
+  a[href*="example"] { display: none !important; }
+  /* Hide series/IE controls */
+  .series-panel, .cbrow input[type="checkbox"] { display: none !important; }
 
   /* ── Hub Build Cost box ── */
   .build-box { background: white !important; border: 1.5px solid #c0cad8 !important; border-radius: 8px !important; overflow: hidden !important; margin-bottom: 14px !important; padding: 18px 24px !important; gap: 24px !important; }
@@ -259,7 +274,7 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   .build-right { background: white !important; padding: 0 !important; }
   .build-divider { display: none !important; }
   .build-total { font-family: 'Barlow Condensed', sans-serif !important; font-size: 32px !important; font-weight: 700 !important; }
-  .build-lbl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; color: #6B7A99 !important; margin-bottom: 2px; }
+  .build-lbl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; color: #6B7A99 !important; }
   .build-note { font-family: 'Barlow', sans-serif !important; font-size: 12px !important; color: #6B7A99 !important; }
   .bar-lbl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; }
   .bar-pct { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; }
@@ -267,44 +282,42 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   .bar-fill { background: #6FBCCE !important; height: 4px; border-radius: 2px; }
 
   /* ── Build tier rows ── */
-  .build-tier-row { display: flex; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #edf0f5; }
+  .build-tier-row { display: flex !important; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #edf0f5; }
   .build-tier-row:last-child { border-bottom: none; }
   .build-tier-left { flex: 1; }
   .build-tier-name { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; }
   .build-tier-meta { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: #6B7A99 !important; }
   .build-tier-mid { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: #6B7A99 !important; text-transform: uppercase; letter-spacing: .06em; padding: 0 16px; }
-  .build-tier-mid input { display: none !important; }
+  /* SHOW the min advertiser number — override the hide */
+  .build-tier-mid input[type="number"] { display: inline-block !important; width: auto !important; border: none !important; background: transparent !important; padding: 0 !important; font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-size: 16px !important; color: #0C1D43 !important; max-width: 30px; }
   .build-tier-right { text-align: right; min-width: 80px; }
   .build-tier-cost { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-size: 18px !important; }
   .build-tier-cost-sub { font-family: 'Barlow', sans-serif !important; font-size: 10px !important; color: #6B7A99 !important; }
 
-  /* ── Form fields — Barlow, matching calculator ── */
-  .field label { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; font-size: 12px !important; letter-spacing: .06em !important; text-transform: uppercase !important; color: #6B7A99 !important; }
-  input, select { font-family: 'Barlow', sans-serif !important; font-size: 14px !important; font-weight: 400 !important; border: 1.5px solid #c0cad8 !important; border-radius: 5px !important; padding: 6px 10px !important; }
-  select { -webkit-appearance: none; appearance: none; }
-  .cbrow input[type="checkbox"], .series-panel, .rr-expand-btn, a[href*="example"], .add-small-btn { display: none !important; }
-
   /* ── Package cards ── */
   .pkg { border: 1.5px solid #c0cad8; border-radius: 8px; margin-bottom: 18px; overflow: hidden; }
-  .pkg-header { background: #0C1D43 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 10px 16px !important; display: flex; align-items: center; gap: 10px; }
+  .pkg-header { background: #0C1D43 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 10px 16px !important; display: flex !important; align-items: center !important; gap: 8px !important; }
 
-  /* ── Tier number — Barlow Condensed Bold White ── */
-  .pkg-num { font-family: 'Barlow Condensed', sans-serif !important; font-size: 28px !important; font-weight: 700 !important; color: white !important; line-height: 1; }
+  /* ── Tier NUMBER — large bold white ── */
+  .pkg-rank-num { font-family: 'Barlow Condensed', sans-serif !important; font-size: 36px !important; font-weight: 700 !important; color: white !important; line-height: 1 !important; min-width: 36px !important; }
+  .pkg-rank-word { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 700 !important; letter-spacing: .18em !important; text-transform: uppercase !important; color: rgba(255,255,255,0.45) !important; }
+  .pkg-rank-divider { background: rgba(255,255,255,.2) !important; }
 
-  /* ── TIER label ── */
-  .pkg-rank-word { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 700 !important; letter-spacing: .18em !important; text-transform: uppercase !important; color: rgba(255,255,255,0.5) !important; }
+  /* ── Package name — as plain text, white ── */
+  input.pkg-name { font-family: 'Barlow', sans-serif !important; font-size: 16px !important; font-weight: 600 !important; color: white !important; background: transparent !important; border: none !important; border-bottom: none !important; box-shadow: none !important; pointer-events: none; width: auto !important; }
 
-  /* ── Package name ── */
-  .pkg-name { font-family: 'Barlow', sans-serif !important; font-size: 16px !important; font-weight: 600 !important; color: white !important; border-bottom: none !important; }
-  input.pkg-name { font-family: 'Barlow', sans-serif !important; font-size: 16px !important; font-weight: 600 !important; color: white !important; background: transparent !important; border: none !important; }
-
-  /* ── Section titles inside pkg (HUB PRESENCE, STORY, PROMOTION) ── */
-  .pkg-section-title { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; letter-spacing: .1em !important; text-transform: uppercase !important; color: #6FBCCE !important; margin-bottom: 8px !important; }
-
-  /* ── Hub placements ── */
+  /* ── Hub presence ── */
+  .pkg-section-title { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 13px !important; letter-spacing: .1em !important; text-transform: uppercase !important; color: #6FBCCE !important; }
   .inclusion-row:not(.active) { display: none !important; }
   .inclusion-name { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; font-size: 13px !important; }
   .inclusion-desc { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: #6B7A99 !important; }
+
+  /* ── Story section — hide layout type for hub-only ── */
+  .pkg-layout-none { display: none !important; }
+
+  /* ── Promotion ── */
+  .promo-fl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; }
+  .promo-monthly { font-family: 'Barlow', sans-serif !important; font-size: 12px !important; font-weight: 600 !important; color: #6FBCCE !important; }
 
   /* ── Cost results ── */
   .pkg-results { background: #f4f7fb !important; padding: 14px 18px !important; }
@@ -312,21 +325,25 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
   .rr-total { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 14px !important; }
   .rv { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; }
 
-  /* ── Promotion fields ── */
-  .promo-fl { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: .08em !important; text-transform: uppercase !important; }
-  .promo-monthly { font-family: 'Barlow', sans-serif !important; font-size: 12px !important; font-weight: 600 !important; color: #6FBCCE !important; }
+  /* ── Retail cost — show as plain text like total cost ── */
+  .retail-label { font-family: 'Barlow', sans-serif !important; font-weight: 700 !important; font-size: 14px !important; text-transform: uppercase !important; letter-spacing: .06em !important; }
+  input[placeholder="e.g. 18000"], input[placeholder=""] { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-size: 22px !important; border: none !important; background: transparent !important; padding: 0 !important; pointer-events: none; width: auto !important; max-width: 180px; color: #0C1D43 !important; }
 
-  /* ── Add-ons ── */
-  .addon-card-name { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; font-size: 13px !important; }
-  .addon-card-desc { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; }
-  .addon-card-price { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 600 !important; font-size: 16px !important; }
+  /* ── Add-ons — hide inactive, show active as clean text ── */
   .addon-card:not(.active) { display: none !important; }
+  .addon-card { border: none !important; background: transparent !important; padding: 4px 0 !important; }
+  .addon-card-check { display: none !important; }
+  .addon-card-name { font-family: 'Barlow', sans-serif !important; font-weight: 600 !important; font-size: 13px !important; }
+  .addon-card-desc { font-family: 'Barlow', sans-serif !important; font-size: 11px !important; color: #6B7A99 !important; }
+  .addon-card-price { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-size: 16px !important; padding: 0 0 0 12px !important; }
+  /* Custom add-on inputs — show as plain text */
+  .addon-card input[type="text"], .addon-card input[type="number"] { font-family: 'Barlow', sans-serif !important; border: none !important; background: transparent !important; padding: 0 !important; pointer-events: none; font-weight: 600 !important; font-size: 13px !important; width: auto !important; }
 
   /* ── Post-sale note ── */
   .post-sale-note { padding: 14px 18px; border: 1px solid #c8dce0; border-radius: 6px; background: #f0f8fa !important; margin-top: 12px; }
   .post-sale-note-text { font-family: 'Barlow', sans-serif !important; font-size: 12px !important; }
 
-  /* ── Pkg section spacing ── */
+  /* ── Pkg column spacing ── */
   .pkg-section { padding: 14px 18px !important; }
   .pkg-results { padding: 16px 18px !important; }
 }
@@ -366,13 +383,14 @@ input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--na
       <button onclick="openClaudeHelper()" style="flex-shrink:0;background:var(--navy);border:none;border-radius:5px;padding:8px 14px;font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:white;cursor:pointer;white-space:nowrap;">Open ↗</button>
     </div>
 
-    <label for="promptHubDesc">What is this co-op hub program about and which Hearst market is hosting?</label>
-    <textarea id="promptHubDesc" rows="3" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:16px;resize:vertical;" placeholder="e.g. A music and culture hub hosted by SFG in the Bay Area, spotlighting local artists, festivals, and live events."></textarea>
-    <label for="promptTagline">What tagline or key message should anchor the program?</label>
-    <textarea id="promptTagline" rows="2" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:16px;resize:vertical;" placeholder="e.g. Creating Connections That Drive Austin Forward"></textarea>
-    <label for="promptAudience">Describe the target audience traits (demographics, interests, intent, location, etc.)</label>
-    <textarea id="promptAudience" rows="2" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:15px;margin-bottom:20px;resize:vertical;" placeholder="e.g. Bay Area music fans ages 25–45, concert-goers, festival attendees, high household income, culturally engaged"></textarea>
-<input type="hidden" id="promptSponsorPitch" value="">
+    <div style="font-size:12px;color:var(--muted);margin:0 0 14px;line-height:1.7;font-family:'Barlow',sans-serif;border-left:3px solid var(--blue);padding-left:10px;"><strong>1. TAGLINE</strong> (under 10 words): Bold, memorable tagline for this program.<br><strong>2. OVERVIEW</strong> (2 sentences): Editorial-style overview of the program and market.<br><strong>3. TARGETING</strong> (1 sentence): Who is the target audience?</div>
+    <label for="promptTagline" style="font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;">1. Tagline</label>
+    <textarea id="promptTagline" rows="1" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:8px 11px;font-family:'Barlow',sans-serif;font-size:14px;margin-bottom:10px;resize:vertical;" placeholder="e.g. Where Bay Area Music Finds Its Stage"></textarea>
+    <label for="promptHubDesc" style="font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;">2. Program Overview</label>
+    <textarea id="promptHubDesc" rows="3" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:8px 11px;font-family:'Barlow',sans-serif;font-size:14px;margin-bottom:10px;resize:vertical;" placeholder="e.g. SFG is launching the Sound Summit Co-op Hub — a music and culture hub for Bay Area music fans."></textarea>
+    <label for="promptAudience" style="font-family:'Barlow',sans-serif;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;">3. Target Audience</label>
+    <textarea id="promptAudience" rows="1" style="width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:5px;padding:8px 11px;font-family:'Barlow',sans-serif;font-size:14px;margin-bottom:18px;resize:vertical;" placeholder="e.g. Bay Area music fans ages 25–45, concert-goers, high household income"></textarea>
+    <input type="hidden" id="promptSponsorPitch" value="">
     <div class="settings-row">
       <button class="btn btn-s" onclick="closePrompt()">Cancel</button>
       <button class="btn btn-p" id="promptGenerateBtn" onclick="submitPromptAndGenerate()">Generate Deck</button>
@@ -662,7 +680,7 @@ function render(){
     <div class="pkg-body" style="display:flex;flex-direction:row;align-items:stretch;">
       <div class="pkg-col-left" style="flex:1 1 auto;min-width:0;border-right:1px solid #dce3ed;display:flex;flex-direction:column;">
         <div class="pkg-section" style="flex:0 0 auto;border-bottom:1px solid var(--border)"><div class="pkg-section-title">Hub Presence</div><p style="font-size:14px;color:var(--muted);margin-bottom:10px;">Click to confirm included placements</p><div class="inclusions-list">${incRows}</div><button class="add-small-btn" onclick="addInclusion(${p.id})">+ Add Custom Placement</button></div>
-        <div class="pkg-section" style="flex:0 0 auto;border-bottom:1px solid var(--border)"><div class="pkg-section-title">Story</div>${hub?'<p style="font-size:14px;color:var(--muted);font-style:italic;margin-bottom:8px">No story — hub presence only.</p>':''}<div class="field"><label>Layout Type</label><div style="display:flex;align-items:center;gap:8px;"><select onchange="upd(${p.id},'layout',this.value)" style="flex:1"><option value="high-impact" ${p.layout==='high-impact'?'selected':''}>High-Impact</option><option value="guide" ${p.layout==='guide'?'selected':''}>SS Guide</option><option value="traditional" ${p.layout==='traditional'?'selected':''}>Traditional</option><option value="branded" ${p.layout==='branded'?'selected':''}>Branded</option><option value="none" ${p.layout==='none'?'selected':''}>None (hub only)</option></select>${STORY_LINKS[p.layout]?`<a href="${STORY_LINKS[p.layout]}" target="_blank" rel="noopener" style="flex-shrink:0;display:inline-flex;align-items:center;gap:4px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:600;color:var(--blue);text-decoration:none;white-space:nowrap;border:1.5px solid var(--blue);border-radius:4px;padding:5px 10px;transition:background .15s,color .15s;" onmouseover="this.style.background='var(--blue)';this.style.color='var(--navy)'" onmouseout="this.style.background='transparent';this.style.color='var(--blue)'">See example ↗</a>`:''}</div></div>${['high-impact','branded'].includes(p.layout)?`
+        <div class="pkg-section" style="flex:0 0 auto;border-bottom:1px solid var(--border)"><div class="pkg-section-title">Story</div>${hub?'<p style="font-size:14px;color:var(--muted);font-style:italic;margin-bottom:8px">No story — hub presence only.</p>':''}<div class="field${hub?' pkg-layout-none':''}"><label>Layout Type</label><div style="display:flex;align-items:center;gap:8px;"><select onchange="upd(${p.id},'layout',this.value)" style="flex:1"><option value="high-impact" ${p.layout==='high-impact'?'selected':''}>High-Impact</option><option value="guide" ${p.layout==='guide'?'selected':''}>SS Guide</option><option value="traditional" ${p.layout==='traditional'?'selected':''}>Traditional</option><option value="branded" ${p.layout==='branded'?'selected':''}>Branded</option><option value="none" ${p.layout==='none'?'selected':''}>None (hub only)</option></select>${STORY_LINKS[p.layout]?`<a href="${STORY_LINKS[p.layout]}" target="_blank" rel="noopener" style="flex-shrink:0;display:inline-flex;align-items:center;gap:4px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:600;color:var(--blue);text-decoration:none;white-space:nowrap;border:1.5px solid var(--blue);border-radius:4px;padding:5px 10px;transition:background .15s,color .15s;" onmouseover="this.style.background='var(--blue)';this.style.color='var(--navy)'" onmouseout="this.style.background='transparent';this.style.color='var(--blue)'">See example ↗</a>`:''}</div></div>${['high-impact','branded'].includes(p.layout)?`
         <div class="series-toggle-row">
           <button class="series-toggle-btn${p.seriesActive?' active':''}" onclick="toggleSeries(${p.id})">${p.seriesActive?'Series: On':'+ Series'}</button>
           ${p.seriesActive?`<span style="font-size:14px;color:var(--muted);">${p.seriesCount} layouts</span>`:'<span style="font-size:14px;color:var(--muted);">Multiple layouts at a discount</span>'}
@@ -852,8 +870,8 @@ function openClaudeHelper(){
   var hub=data.hubName||'[Hub Name]';
   var station=data.station||'[Station]';
   var prompt='Write copy for a co-op hub sponsorship deck. Return exactly three labeled items:\n\n'+
-    '1. OVERVIEW (2 sentences): Editorial-style overview of the '+hub+' Co-op Hub hosted by '+station+'.\n'+
-    '2. TAGLINE (under 10 words): Bold, memorable tagline for this program.\n'+
+    '1. TAGLINE (under 10 words): Bold, memorable tagline for this program.\n'+
+    '2. OVERVIEW (2 sentences): Editorial-style overview of the '+hub+' Co-op Hub hosted by '+station+'.\n'+
     '3. TARGETING (1 sentence): Who is the target audience?\n\n'+
     'Keep the tone professional and sponsor-facing. Return only the three labeled items, no intro or explanation.';
   window.open('https://claude.ai/new?q='+encodeURIComponent(prompt),'_blank');
@@ -900,8 +918,8 @@ function openClaudeHelper(){
   var hub=data.hubName||'[Hub Name]';
   var station=data.station||'[Station]';
   var prompt='Write copy for a co-op hub sponsorship deck. Return exactly three labeled items:\n\n'+
-    '1. OVERVIEW (2 sentences): Editorial-style overview of the '+hub+' Co-op Hub hosted by '+station+'.\n'+
-    '2. TAGLINE (under 10 words): Bold, memorable tagline for this program.\n'+
+    '1. TAGLINE (under 10 words): Bold, memorable tagline for this program.\n'+
+    '2. OVERVIEW (2 sentences): Editorial-style overview of the '+hub+' Co-op Hub hosted by '+station+'.\n'+
     '3. TARGETING (1 sentence): Who is the target audience?\n\n'+
     'Keep the tone professional and sponsor-facing. Return only the three labeled items, no intro or explanation.';
   window.open('https://claude.ai/new?q='+encodeURIComponent(prompt),'_blank');
@@ -1101,6 +1119,12 @@ function resetCalculator(){
 }
 
 function printVersioned(){
+  // Mark unchecked boxes for hiding in print
+  ['hifi','sepLineItem'].forEach(function(id){
+    var el=document.getElementById(id);
+    var row=el&&el.closest('.cbrow');
+    if(row){ row.classList.toggle('print-hide',!el.checked); }
+  });
   _pdfVersion++;
   var data=getCalcData();
   var station=(data.station||'Report').replace(/[^a-zA-Z0-9\s]/g,'').trim().replace(/\s+/g,'-');
