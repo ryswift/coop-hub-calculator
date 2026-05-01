@@ -1071,11 +1071,17 @@ function loadProgress(){
     });
     if(state.hifi!==undefined) document.getElementById('hifi').checked=state.hifi;
     if(state.sepLineItem!==undefined) document.getElementById('sepLineItem').checked=state.sepLineItem;
-    // Restore packages — filter out blank/empty ones on load too
+    // Restore packages — strict filter: must have name OR retail OR minSponsors
     if(state.pkgs){
       var allPkgs=JSON.parse(state.pkgs);
-      pkgs=allPkgs.filter(function(p){return (p.name&&p.name.trim())||p.retail>0||p.minSponsors>0;});
+      pkgs=allPkgs.filter(function(p){
+        return (p.name&&p.name.trim().length>0)||(p.retail&&p.retail>0)||(p.minSponsors&&p.minSponsors>0);
+      });
       pid=state.pid||allPkgs.length;
+      // Re-save immediately with cleaned packages to prevent stale blank cards
+      if(pkgs.length < allPkgs.length){
+        try{ state.pkgs=JSON.stringify(pkgs); localStorage.setItem('calcProgress',JSON.stringify(state)); }catch(e){}
+      }
     }
     // Safety: if no packages restored, add one blank
     if(pkgs.length===0){ pkgs=[]; addPackage(); }
